@@ -138,14 +138,17 @@
             <div class="welcome-text">
               <h2 id="dashboardGreeting">Good morning, Robert!</h2>
               <p>Keep up the great routine. You have doses scheduled today to keep you healthy and energized.</p>
+              <div class="welcome-quick-actions">
+                <button class="btn btn-secondary btn-action-lg" onclick="switchView('viewTracker')" style="background: rgba(255,255,255,0.18); color:#fff; border:1px solid rgba(255,255,255,0.3);">
+                  View Schedule
+                </button>
+                <button class="btn btn-success btn-action-lg" onclick="UI.openAddMedicineModal()">
+                  + New Medicine
+                </button>
+              </div>
             </div>
-            <div class="welcome-quick-actions">
-              <button class="btn btn-secondary btn-action-lg" onclick="switchView('viewTracker')">
-                View Schedule
-              </button>
-              <button class="btn btn-success btn-action-lg" onclick="UI.openAddMedicineModal()">
-                + New Medicine
-              </button>
+            <div class="welcome-banner-illustration">
+              <img src="assets/images/hero-healthcare.svg" alt="Healthcare illustration with medicine bottle, clock and heart pulse" />
             </div>
           </div>
 
@@ -192,17 +195,45 @@
             </div>
           </div>
 
-          <!-- Daily Adherence Progress -->
-          <div class="adherence-card">
-            <div class="adherence-header">
-              <div>
-                <span class="adherence-title">Today's Medication Adherence</span>
-                <div class="adherence-subtext" id="dashboardAdherenceSubtext">3 of 7 doses taken today</div>
+          <!-- Daily Progress Ring + Weekly Chart -->
+          <div class="dashboard-midrow">
+            <div class="adherence-card">
+              <div class="adherence-header">
+                <div>
+                  <span class="adherence-title">Today's Medication Adherence</span>
+                  <div class="adherence-subtext" id="dashboardAdherenceSubtext">3 of 7 doses taken today</div>
+                </div>
+                <div class="adherence-percent" id="dashboardAdherencePct">43%</div>
               </div>
-              <div class="adherence-percent" id="dashboardAdherencePct">43%</div>
+              <div class="progress-ring-wrap">
+                <svg class="progress-ring" viewBox="0 0 130 130" aria-label="Daily adherence progress ring">
+                  <defs>
+                    <linearGradient id="ringGrad" x1="0" y1="0" x2="130" y2="130" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#087E8B"/>
+                      <stop offset="1" stop-color="#176B87"/>
+                    </linearGradient>
+                  </defs>
+                  <circle class="progress-ring-track" cx="65" cy="65" r="54"/>
+                  <circle class="progress-ring-fill" id="adherenceRingFill" cx="65" cy="65" r="54" stroke-dasharray="339.29" stroke-dashoffset="339.29"/>
+                </svg>
+                <div class="progress-ring-center">
+                  <span class="ring-value" id="dashboardRingValue">0%</span>
+                  <span class="ring-label">Doses completed today</span>
+                </div>
+              </div>
+              <div class="progress-track" aria-label="Adherence progress bar">
+                <div class="progress-bar-fill" id="dashboardAdherenceBar" style="width: 43%;"></div>
+              </div>
             </div>
-            <div class="progress-track" aria-label="Adherence progress">
-              <div class="progress-bar-fill" id="dashboardAdherenceBar" style="width: 43%;"></div>
+
+            <div class="weekly-chart-card">
+              <div class="weekly-chart-header">
+                <h3>Weekly Medication Adherence</h3>
+                <span class="badge badge-primary" style="font-size:0.8rem;">7-Day %</span>
+              </div>
+              <div class="weekly-chart-bars" id="dashboardWeeklyBars" aria-label="Weekly medication adherence chart">
+                <!-- Populated dynamically -->
+              </div>
             </div>
           </div>
 
