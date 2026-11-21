@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # MediTrack – Smart Medicine Reminder
 
 **MediTrack** is a modern, responsive, and accessible healthcare web application designed to help individuals, particularly elderly users, easily organize, manage, and track their daily medication schedules.
@@ -99,3 +100,7 @@ Because **MediTrack** is built with pure HTML5, CSS3, and JavaScript:
 1. Open `index.html` in any modern web browser (Google Chrome, Microsoft Edge, Mozilla Firefox, Safari).
 2. Or serve it via any static local HTTP server (e.g. `python -m http.server 8000`).
 3. The application will initialize with realistic demonstration medications and past adherence history ready to explore immediately!
+=======
+# MediTrack-Smart-Medicine-Reminder
+Web app made for Hack2Skill Promptwars
+>>>>>>> 507d869a3fe13f3e37a027a2c181ce3ef82fad79
