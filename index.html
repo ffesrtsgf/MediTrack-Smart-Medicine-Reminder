@@ -25,10 +25,7 @@
          ===================================================================== -->
     <aside class="sidebar" aria-label="Main Navigation">
       <div class="brand-section">
-        <div class="brand-icon">
-          <!-- Heart Pulse Icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg>
-        </div>
+        <img src="assets/images/logo.svg" alt="MediTrack Emblem" class="brand-logo-img" width="40" height="40">
         <div class="brand-title-group">
           <h1>MediTrack</h1>
           <span class="brand-badge">Smart Health</span>
@@ -121,7 +118,7 @@
           </button>
           <button class="btn btn-ghost btn-sm" onclick="AuthManager.logoutUser()" title="Log out" style="color: var(--danger); font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
-            <span>Logout</span>
+            <span class="logout-label">Logout</span>
           </button>
         </div>
       </header>
@@ -136,17 +133,21 @@
           <!-- Personalized Greeting Banner -->
           <div class="welcome-banner">
             <div class="welcome-text">
+              <p class="welcome-kicker" id="dashboardKicker">Care plan for today</p>
               <h2 id="dashboardGreeting">Good morning, Robert!</h2>
-              <p>Keep up the great routine. You have doses scheduled today to keep you healthy and energized.</p>
+              <p id="dashboardWelcomeNote">Keep up the great routine. You have doses scheduled today to keep you healthy and energized.</p>
+              <div class="welcome-quick-actions">
+                <button class="btn btn-secondary btn-action-lg" onclick="switchView('viewTracker')">
+                  View Schedule
+                </button>
+                <button class="btn btn-success btn-action-lg" onclick="UI.openAddMedicineModal()">
+                  + New Medicine
+                </button>
+              </div>
             </div>
-            <div class="welcome-quick-actions">
-              <button class="btn btn-secondary btn-action-lg" onclick="switchView('viewTracker')">
-                View Schedule
-              </button>
-              <button class="btn btn-success btn-action-lg" onclick="UI.openAddMedicineModal()">
-                + New Medicine
-              </button>
-            </div>
+            <figure class="welcome-art">
+              <img src="assets/images/healthcare-hero.svg" alt="Healthcare Dashboard and medication schedule" width="340" height="240" class="welcome-banner-graphic" onerror="this.onerror=null;this.src='assets/images/logo.svg';">
+            </figure>
           </div>
 
           <!-- 4 Summary Stat Cards -->
@@ -192,27 +193,56 @@
             </div>
           </div>
 
-          <!-- Daily Adherence Progress -->
-          <div class="adherence-card">
-            <div class="adherence-header">
-              <div>
-                <span class="adherence-title">Today's Medication Adherence</span>
-                <div class="adherence-subtext" id="dashboardAdherenceSubtext">3 of 7 doses taken today</div>
+          <div class="dashboard-grid">
+            <article class="panel-card">
+              <div class="section-title-row">
+                <h3>Today's medicine schedule</h3>
+                <button class="btn btn-ghost btn-sm" onclick="switchView('viewTracker')">Open tracker</button>
               </div>
-              <div class="adherence-percent" id="dashboardAdherencePct">43%</div>
-            </div>
-            <div class="progress-track" aria-label="Adherence progress">
-              <div class="progress-bar-fill" id="dashboardAdherenceBar" style="width: 43%;"></div>
-            </div>
+              <div class="schedule-list" id="dashboardScheduleList" aria-live="polite"></div>
+            </article>
+
+            <article class="panel-card adherence-card">
+              <div class="adherence-layout">
+                <div class="progress-ring-wrap">
+                  <svg class="progress-ring" viewBox="0 0 120 120" role="img" aria-label="Daily medication progress">
+                    <circle class="ring-track" cx="60" cy="60" r="52"></circle>
+                    <circle class="ring-value" id="dashboardProgressRing" cx="60" cy="60" r="52"></circle>
+                  </svg>
+                  <div class="progress-ring-label">
+                    <strong id="dashboardAdherencePct">0%</strong>
+                    <span>Today</span>
+                  </div>
+                </div>
+                <div class="adherence-copy">
+                  <div class="adherence-title">Daily progress</div>
+                  <div class="adherence-subtext" id="dashboardAdherenceSubtext">Ready for today's medications</div>
+                  <div class="progress-track" aria-label="Adherence progress" style="margin-top: 14px;">
+                    <div class="progress-bar-fill" id="dashboardAdherenceBar" style="width: 0%;"></div>
+                  </div>
+                </div>
+              </div>
+            </article>
           </div>
 
-          <!-- Upcoming Reminders -->
-          <div class="section-title-row">
-            <h3>Upcoming Medication Reminders</h3>
-            <button class="btn btn-ghost btn-sm" onclick="switchView('viewReminders')">View All Reminders →</button>
-          </div>
-          <div class="reminders-list" id="dashboardUpcomingList">
-            <!-- Populated dynamically by UI.renderDashboard() -->
+          <div class="dashboard-grid">
+            <article class="panel-card">
+              <div class="section-title-row">
+                <h3>Weekly medication</h3>
+                <button class="btn btn-ghost btn-sm" onclick="switchView('viewReports')">Full reports</button>
+              </div>
+              <div class="chart-wrapper-dash">
+                <canvas id="dashboardWeeklyChart" aria-label="Bar chart of medication adherence for the last seven days"></canvas>
+              </div>
+            </article>
+
+            <article class="panel-card">
+              <div class="section-title-row">
+                <h3>Upcoming reminders</h3>
+                <button class="btn btn-ghost btn-sm" onclick="switchView('viewReminders')">View all</button>
+              </div>
+              <div class="reminders-list" id="dashboardUpcomingList"></div>
+            </article>
           </div>
         </section>
 
@@ -364,6 +394,9 @@
               </button>
             </div>
           </div>
+
+          <!-- Highlight next scheduled medicine spotlight -->
+          <div id="reminderSpotlightContainer"></div>
 
           <div id="remindersPageList">
             <!-- Populated dynamically by UI.renderReminders() -->
@@ -703,8 +736,14 @@
        ======================================================================= -->
   <div class="modal-overlay" id="medicineModal" role="dialog" aria-modal="true" aria-labelledby="medicineFormModalTitle">
     <div class="modal-dialog">
-      <div class="modal-header">
-        <h3 id="medicineFormModalTitle">Add New Medicine</h3>
+      <div class="modal-header modal-header-medicine">
+        <div class="modal-heading">
+          <div class="modal-type-badge" id="medTypePreview" aria-hidden="true"></div>
+          <div>
+            <h3 id="medicineFormModalTitle">Add New Medicine</h3>
+            <p class="modal-subtitle">Name, dose, and the times you need a reminder.</p>
+          </div>
+        </div>
         <button class="btn-icon" aria-label="Close dialog" onclick="UI.closeModal('medicineModal')">&times;</button>
       </div>
 
@@ -716,11 +755,13 @@
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="medName">Medicine Name *</label>
-              <input type="text" id="medName" class="form-input" placeholder="e.g. Metformin" required>
+              <input type="text" id="medName" class="form-input" placeholder="e.g. Metformin" required aria-describedby="medNameError">
+              <span class="field-error-text" id="medNameError" role="alert">Please enter the medicine name.</span>
             </div>
             <div class="form-group">
               <label class="form-label" for="medDosage">Dosage *</label>
-              <input type="text" id="medDosage" class="form-input" placeholder="e.g. 500 mg, 1 tablet" required>
+              <input type="text" id="medDosage" class="form-input" placeholder="e.g. 500 mg, 1 tablet" required aria-describedby="medDosageError">
+              <span class="field-error-text" id="medDosageError" role="alert">Please specify the dosage.</span>
             </div>
           </div>
 
@@ -738,6 +779,12 @@
                 <option value="ointment">Cream / Ointment</option>
                 <option value="other">Other</option>
               </select>
+              <div class="type-chip-row" role="group" aria-label="Common medicine types">
+                <button type="button" class="type-chip" data-type="tablet">Tablet</button>
+                <button type="button" class="type-chip" data-type="capsule">Capsule</button>
+                <button type="button" class="type-chip" data-type="syrup">Syrup</button>
+                <button type="button" class="type-chip" data-type="drops">Drops</button>
+              </div>
             </div>
 
             <div class="form-group">
@@ -802,8 +849,9 @@
             </div>
             <div class="form-group">
               <label class="form-label" for="medEndDate">End Date</label>
-              <input type="date" id="medEndDate" class="form-input" placeholder="Leave empty if ongoing">
+              <input type="date" id="medEndDate" class="form-input" placeholder="Leave empty if ongoing" aria-describedby="medDateError">
               <span class="form-hint">Leave blank if ongoing long-term.</span>
+              <span class="field-error-text" id="medDateError" role="alert">End date cannot be earlier than the start date.</span>
             </div>
           </div>
 

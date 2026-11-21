@@ -1,6 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
-  <circle cx="60" cy="60" r="54" fill="#f0f9ff" stroke="#bae6fd" stroke-width="2"/>
-  <rect x="42" y="34" width="36" height="52" rx="10" stroke="#0284c7" stroke-width="4"/>
-  <path d="M42 54h36" stroke="#0284c7" stroke-width="4"/>
-  <circle cx="60" cy="70" r="6" fill="#38bdf8"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" fill="none" role="img" aria-label="Empty medicine cabinet illustration">
+  <rect width="200" height="160" rx="24" fill="#F4F9FC"/>
+  <rect x="48" y="28" width="104" height="104" rx="22" fill="#ffffff" stroke="#087E8B" stroke-width="3"/>
+  <path d="M48 62h104" stroke="#D9F3E8" stroke-width="8"/>
+  <rect x="68" y="78" width="28" height="16" rx="8" fill="#087E8B"/>
+  <rect x="104" y="78" width="28" height="16" rx="8" fill="#176B87"/>
+  <circle cx="100" cy="112" r="8" fill="#D9F3E8" stroke="#087E8B" stroke-width="3"/>
 </svg>

@@ -1,11 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none">
   <defs>
-    <linearGradient id="meditrackGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#0284c7"/>
-      <stop offset="1" stop-color="#38bdf8"/>
+    <linearGradient id="meditrackLogoGrad" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#1D4ED8" />
     </linearGradient>
+    <linearGradient id="pillGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#60A5FA" />
+      <stop offset="100%" stop-color="#EFF6FF" />
+    </linearGradient>
+    <filter id="logoShadow" x="0" y="2" width="48" height="48" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#2563EB" flood-opacity="0.3"/>
+    </filter>
   </defs>
-  <rect width="64" height="64" rx="16" fill="url(#meditrackGrad)"/>
-  <path d="M48 37.333c3.973-3.893 8-8.56 8-14.666 0-8.107-6.56-14.667-14.667-14.667-4.693 0-8 1.333-12 5.333-4-4-7.307-5.333-12-5.333-8.107 0-14.667 6.56-14.667 14.667 0 6.106 4.027 10.773 8 14.666l18.667 18.667L48 37.333z" fill="white" opacity="0.15"/>
-  <path d="M12 32h14l4-8 6 16 4-8h16" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Background Container -->
+  <rect x="4" y="4" width="40" height="40" rx="12" fill="url(#meditrackLogoGrad)" filter="url(#logoShadow)"/>
+  
+  <!-- Subtle Cross in background -->
+  <rect x="20.5" y="11" width="7" height="26" rx="3.5" fill="#FFFFFF" fill-opacity="0.22" />
+  <rect x="11" y="20.5" width="26" height="7" rx="3.5" fill="#FFFFFF" fill-opacity="0.22" />
+  
+  <!-- Pill Capsule at 45 degree angle -->
+  <g transform="rotate(-45 24 24)">
+    <!-- Pill top half -->
+    <path d="M19 14 C19 10.134 22.134 7 26 7 C29.866 7 33 10.134 33 14 L33 24 L19 24 Z" fill="#FFFFFF" />
+    <!-- Pill bottom half -->
+    <path d="M19 24 L33 24 L33 34 C33 37.866 29.866 41 26 41 C22.134 41 19 37.866 19 34 Z" fill="#93C5FD" />
+    <!-- Pill division line -->
+    <line x1="19" y1="24" x2="33" y2="24" stroke="#2563EB" stroke-width="1.5" />
+    <!-- Pill shine -->
+    <path d="M22 11 C22 9.5 23.5 8.5 25 8.5" stroke="#BFDBFE" stroke-width="1.5" stroke-linecap="round" />
+  </g>
+  <!-- Active Pulse Dot -->
+  <circle cx="36" cy="12" r="3.5" fill="#10B981" stroke="#FFFFFF" stroke-width="1.5"/>
 </svg>

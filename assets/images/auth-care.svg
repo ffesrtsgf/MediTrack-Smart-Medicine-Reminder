@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 320" fill="none" role="img" aria-labelledby="authTitle authDesc">
+  <title id="authTitle">Healthcare sign-in illustration</title>
+  <desc id="authDesc">A medicine organizer, clock, and heart pulse shown on a calm teal background.</desc>
+  <rect width="420" height="320" rx="32" fill="#0E6A76"/>
+  <circle cx="336" cy="58" r="70" fill="#ffffff" opacity="0.08"/>
+  <circle cx="70" cy="270" r="56" fill="#ffffff" opacity="0.08"/>
+  <rect x="48" y="58" width="196" height="204" rx="28" fill="#ffffff"/>
+  <rect x="70" y="82" width="92" height="12" rx="6" fill="#176B87"/>
+  <rect x="70" y="106" width="140" height="10" rx="5" fill="#D9F3E8"/>
+  <rect x="70" y="134" width="152" height="36" rx="12" fill="#F4F9FC"/>
+  <circle cx="90" cy="152" r="8" fill="#087E8B"/>
+  <rect x="108" y="147" width="86" height="9" rx="4" fill="#176B87" opacity="0.5"/>
+  <rect x="70" y="180" width="152" height="36" rx="12" fill="#D9F3E8"/>
+  <circle cx="90" cy="198" r="8" fill="#176B87"/>
+  <rect x="108" y="193" width="74" height="9" rx="4" fill="#087E8B"/>
+  <rect x="268" y="78" width="108" height="108" rx="54" fill="#D9F3E8"/>
+  <circle cx="322" cy="132" r="36" fill="#ffffff"/>
+  <path d="M322 108v28l16 10" stroke="#087E8B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="252" y="206" width="132" height="64" rx="18" fill="#ffffff" opacity="0.95"/>
+  <path d="M272 238h28l8-14 12 28 10-14h28" stroke="#087E8B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -3,137 +3,188 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Log In – MediTrack</title>
-  <meta name="description" content="Log in to MediTrack – Smart Medicine Reminder to manage and track your daily prescriptions and healthcare routine.">
+  <title>Sign In – MediTrack Healthcare</title>
+  <meta name="description" content="Sign in to MediTrack – Smart Medicine Reminder to manage and track your daily prescriptions and healthcare routine.">
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
 </head>
-<body class="auth-page">
+<body>
 
-  <div class="auth-wrapper">
-    <!-- Brand Header -->
-    <header class="auth-brand">
-      <div class="auth-logo-box">
-        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-          <path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/>
-        </svg>
-      </div>
-      <h1>MediTrack</h1>
-      <p class="auth-tagline">Smart Medicine Reminder & Health Organizer</p>
-    </header>
+  <!-- Two-Column Healthcare SaaS Layout -->
+  <div class="auth-split-container">
 
-    <!-- Main Login Card -->
-    <main class="auth-card">
-      <div class="auth-header">
-        <h2>Welcome Back</h2>
-        <p>Please sign in to view your medication schedule</p>
+    <!-- Left Hero Showcase Pane -->
+    <aside class="auth-hero-pane" aria-label="MediTrack Showcase">
+      <div class="auth-hero-brand">
+        <img src="assets/images/logo.svg" alt="MediTrack Logo" class="auth-hero-logo">
+        <span class="auth-hero-brand-name">MediTrack</span>
+        <span class="auth-hero-badge">Healthcare SaaS</span>
       </div>
 
-      <!-- Quick Demo Account Helper -->
-      <div class="demo-account-box">
-        <div class="demo-account-info">
-          <strong>Demo Account: Robert Davis</strong>
-          <span>robert.davis@example.com</span>
+      <div class="auth-hero-content">
+        <div class="auth-hero-tag">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg>
+          Smart Schedule Assistant
         </div>
-        <div style="display: flex; gap: 6px; flex-shrink: 0;">
-          <button type="button" class="btn-fill-demo" id="btnFillDemoLogin" title="Fill demo credentials">
-            Fill
-          </button>
-          <button type="button" class="btn-fill-demo" id="btnQuickDemoLogin" style="background-color: #059669;" title="Log in immediately as Robert Davis">
-            Quick Login →
-          </button>
+
+        <h1 class="auth-hero-title">Intelligent Care for Daily Medication Routines</h1>
+        <p class="auth-hero-desc">
+          Organize, manage, and track prescriptions with pleasant audio chimes, accessible large typography, and automated doctor adherence reports.
+        </p>
+
+        <!-- High-quality SVG Healthcare Graphic -->
+        <div class="auth-hero-image-wrap">
+          <img src="assets/images/medicine-illustration.svg" alt="Medicine Schedule Illustration">
         </div>
+
+        <ul class="auth-feature-bullets">
+          <li class="auth-feature-item">
+            <span class="auth-feature-check">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            Real-time audible chime alerts when your dose is due
+          </li>
+          <li class="auth-feature-item">
+            <span class="auth-feature-check">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            One-click Taken, Missed, and Snooze tracking
+          </li>
+          <li class="auth-feature-item">
+            <span class="auth-feature-check">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            Designed specifically for elderly accessibility & comfort
+          </li>
+        </ul>
       </div>
 
-      <!-- Alert Banners -->
-      <div id="loginAlertBox" style="display: none;"></div>
+      <div class="auth-hero-footer">
+        <span>© 2026 MediTrack Health System</span>
+        <span>WCAG AAA Accessible Design</span>
+      </div>
+    </aside>
 
-      <!-- Login Form -->
-      <form id="loginForm" class="auth-form" novalidate>
-        <!-- Email Input -->
-        <div class="form-group">
-          <label class="form-label" for="loginEmail">
-            <span>Email Address</span>
-          </label>
-          <div class="auth-input-wrapper">
-            <input 
-              type="email" 
-              id="loginEmail" 
-              class="auth-input" 
-              placeholder="e.g. robert.davis@example.com" 
-              autocomplete="email"
-              required
-            >
+    <!-- Right Form Pane -->
+    <main class="auth-form-pane">
+      <div class="auth-card">
+        
+        <!-- Mobile Logo Header (visible on small screens) -->
+        <div class="auth-card-mobile-brand">
+          <img src="assets/images/logo.svg" alt="MediTrack Logo" width="36" height="36">
+          <strong style="font-size: 1.3rem; color: var(--navy);">MediTrack</strong>
+        </div>
+
+        <div class="auth-header">
+          <h2>Welcome Back</h2>
+          <p>Please enter your credentials to open your schedule.</p>
+        </div>
+
+        <!-- Quick Demo Account Helper -->
+        <div class="demo-account-box">
+          <div class="demo-account-info">
+            <strong>Demo Account: Robert Davis</strong>
+            <span>robert.davis@example.com</span>
           </div>
-          <span class="field-error-text" id="emailError">Please enter a valid email address.</span>
-        </div>
-
-        <!-- Password Input -->
-        <div class="form-group">
-          <label class="form-label" for="loginPassword">
-            <span>Password</span>
-          </label>
-          <div class="auth-input-wrapper">
-            <input 
-              type="password" 
-              id="loginPassword" 
-              class="auth-input has-toggle" 
-              placeholder="Enter your password" 
-              autocomplete="current-password"
-              required
-            >
-            <button 
-              type="button" 
-              class="btn-toggle-password" 
-              id="btnTogglePassword" 
-              aria-label="Toggle password visibility" 
-              tabindex="-1"
-            >
-              <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
-                <circle cx="12" cy="12" r="3"/>
-              </svg>
+          <div style="display: flex; gap: 8px; flex-shrink: 0;">
+            <button type="button" class="btn-fill-demo" id="btnFillDemoLogin" title="Fill demo credentials">
+              Fill
+            </button>
+            <button type="button" class="btn-fill-demo" id="btnQuickDemoLogin" style="background-color: var(--success);" title="Log in immediately as Robert Davis">
+              Quick Login →
             </button>
           </div>
-          <span class="field-error-text" id="passwordError">Please enter your password.</span>
         </div>
 
-        <!-- Remember Me Checkbox -->
-        <div class="auth-checkbox-row">
-          <label class="custom-checkbox-label">
-            <input type="checkbox" id="rememberMe">
-            <span>Remember my email</span>
-          </label>
+        <!-- Alert Banners -->
+        <div id="loginAlertBox" style="display: none;"></div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form" novalidate>
+          <!-- Email Input -->
+          <div class="form-group">
+            <label class="form-label" for="loginEmail">
+              <span>Email Address</span>
+            </label>
+            <div class="auth-input-wrapper">
+              <input 
+                type="email" 
+                id="loginEmail" 
+                class="auth-input" 
+                placeholder="e.g. robert.davis@example.com" 
+                autocomplete="email"
+                required
+              >
+            </div>
+            <span class="field-error-text" id="emailError">Please enter a valid email address.</span>
+          </div>
+
+          <!-- Password Input -->
+          <div class="form-group">
+            <label class="form-label" for="loginPassword">
+              <span>Password</span>
+            </label>
+            <div class="auth-input-wrapper">
+              <input 
+                type="password" 
+                id="loginPassword" 
+                class="auth-input has-toggle" 
+                placeholder="Enter your password" 
+                autocomplete="current-password"
+                required
+              >
+              <button 
+                type="button" 
+                class="btn-toggle-password" 
+                id="btnTogglePassword" 
+                aria-label="Toggle password visibility" 
+                tabindex="-1"
+              >
+                <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            <span class="field-error-text" id="passwordError">Please enter your password.</span>
+          </div>
+
+          <!-- Remember Me Checkbox -->
+          <div class="auth-checkbox-row">
+            <label class="custom-checkbox-label">
+              <input type="checkbox" id="rememberMe">
+              <span>Remember my email</span>
+            </label>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary btn-auth-submit" id="btnLoginSubmit">
+            Log In to Dashboard
+          </button>
+        </form>
+
+        <!-- Navigation to Register -->
+        <div class="auth-footer">
+          Don't have an account yet? 
+          <a href="register.html">Create an Account</a>
         </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary btn-auth-submit" id="btnLoginSubmit">
-          Log In to Dashboard
-        </button>
-      </form>
-
-      <!-- Navigation to Register -->
-      <div class="auth-footer">
-        Don't have an account yet? 
-        <a href="register.html">Create an Account</a>
+        <!-- Educational Demonstration Security Notice -->
+        <div class="edu-notice-card">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" x2="12" y1="8" y2="12"/>
+            <line x1="12" x2="12.01" y1="16" y2="16"/>
+          </svg>
+          <div>
+            <strong>College Demonstration Security Notice</strong>
+            <span>
+              Client-side authentication using <strong>Web Crypto SHA-256 hashing</strong> and <strong>LocalStorage</strong>. Passwords are never stored in plain text.
+            </span>
+          </div>
+        </div>
       </div>
     </main>
-
-    <!-- Educational Demonstration Security Notice -->
-    <div class="edu-notice-card">
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="12" x2="12" y1="8" y2="12"/>
-        <line x1="12" x2="12.01" y1="16" y2="16"/>
-      </svg>
-      <div>
-        <strong>College Demonstration Security Notice</strong>
-        <span>
-          This application demonstrates client-side authentication using the <strong>Web Crypto API (SHA-256 cryptographic hashing)</strong> and browser <strong>LocalStorage</strong>.
-          Passwords are never stored in plain text. Note: LocalStorage is accessible to client scripts and does not replace server-side authentication (e.g., Argon2id/bcrypt and HTTP-only session cookies) required in production healthcare environments.
-        </span>
-      </div>
-    </div>
   </div>
 
   <!-- Authentication Script -->

@@ -1910,7 +1910,7 @@ const UI = (() => {
       if (upcomingList.length === 0) {
         upcomingContainer.innerHTML = `
           <div class="empty-state">
-            <div class="empty-icon">${ICONS.sparkles}</div>
+            <img src="assets/images/empty-state.svg" alt="No doses scheduled" class="empty-state-img">
             <h3>No Scheduled Doses Today</h3>
             <p>Add your prescribed medicines to get timely reminders.</p>
             <button class="btn btn-primary" onclick="UI.openAddMedicineModal()">${ICONS.plus} Add Medicine</button>
@@ -1993,7 +1993,7 @@ const UI = (() => {
     if (filtered.length === 0) {
       container.innerHTML = `
         <div class="empty-state full-width">
-          <div class="empty-icon">${ICONS.pill}</div>
+          <img src="assets/images/empty-state.svg" alt="No medicines" class="empty-state-img">
           <h3>${query ? 'No matching medicines found' : 'No medicines added yet'}</h3>
           <p>${query ? 'Try a different search query or clear your filter.' : 'Organize your health routine by adding your first daily medicine.'}</p>
           <button class="btn btn-primary btn-lg" onclick="UI.openAddMedicineModal()">${ICONS.plus} Add New Medicine</button>
@@ -2074,7 +2074,7 @@ const UI = (() => {
       if (schedule.length === 0) {
         container.innerHTML = `
           <div class="empty-state">
-            <div class="empty-icon">${ICONS.clock}</div>
+            <img src="assets/images/empty-state.svg" alt="No scheduled doses" class="empty-state-img">
             <h3>No doses scheduled for this period</h3>
             <p>Select another time of day or add new medicines to your schedule.</p>
           </div>
@@ -2289,6 +2289,7 @@ const UI = (() => {
   function renderReminders() {
     const upcomingList = ReminderEngine.getUpcomingReminders();
     const container = document.getElementById('remindersPageList');
+    const spotlightContainer = document.getElementById('reminderSpotlightContainer');
     const settings = StorageManager.getSettings();
 
     // Permission status banner
@@ -2307,11 +2308,53 @@ const UI = (() => {
       }
     }
 
+    // Spotlight next scheduled medicine
+    if (spotlightContainer) {
+      const nextPendingDose = upcomingList.find(d => d.status === 'pending');
+      if (nextPendingDose) {
+        const med = StorageManager.getMedicines().find(m => m.id === nextPendingDose.medicineId) || {};
+        const formattedTime = ReminderEngine.formatTimeDisplay(nextPendingDose.scheduledTime);
+        let countdownBadge = '';
+        if (nextPendingDose.diffMinutes > 0) {
+          const hours = Math.floor(nextPendingDose.diffMinutes / 60);
+          const mins = nextPendingDose.diffMinutes % 60;
+          countdownBadge = hours > 0 ? `In ${hours}h ${mins}m` : `In ${mins} minutes`;
+        } else if (nextPendingDose.diffMinutes >= -15) {
+          countdownBadge = '🔔 Scheduled now!';
+        } else {
+          countdownBadge = '⚠️ Overdue';
+        }
+
+        spotlightContainer.innerHTML = `
+          <div class="reminder-spotlight-card">
+            <div class="reminder-spotlight-info">
+              <span class="badge badge-warning" style="margin-bottom: 8px; display: inline-block;">Next Scheduled Medicine</span>
+              <h3>${nextPendingDose.medicineName} • ${nextPendingDose.dosage}</h3>
+              <p style="opacity: 0.92; font-size: 1.02rem; margin-bottom: 16px;">
+                ⏰ Scheduled at <strong>${formattedTime}</strong> (${countdownBadge}) &nbsp;|&nbsp; 📋 ${ReminderEngine.formatInstruction(med.instructions)}
+              </p>
+              <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                <button class="btn btn-success btn-action-lg" onclick="UI.handleTakeDose('${nextPendingDose.id}', '${nextPendingDose.medicineName}')">
+                  ${ICONS.check} Mark as Taken
+                </button>
+                <button class="btn btn-secondary btn-action-lg" onclick="UI.handleSkipDose('${nextPendingDose.id}', '${nextPendingDose.medicineName}')">
+                  ${ICONS.skip} Skip Dose
+                </button>
+              </div>
+            </div>
+            <img src="assets/images/medication-reminder.svg" alt="Active Reminder Spotlight" class="reminder-spotlight-img">
+          </div>
+        `;
+      } else {
+        spotlightContainer.innerHTML = '';
+      }
+    }
+
     if (container) {
       if (upcomingList.length === 0) {
         container.innerHTML = `
           <div class="empty-state">
-            <div class="empty-icon">${ICONS.bell}</div>
+            <img src="assets/images/medication-reminder.svg" alt="No scheduled reminders" class="empty-state-img">
             <h3>No Scheduled Reminders</h3>
             <p>Your medicine reminders will appear here once scheduled.</p>
           </div>

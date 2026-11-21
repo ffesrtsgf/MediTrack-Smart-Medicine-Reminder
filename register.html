@@ -3,192 +3,243 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create an Account – MediTrack</title>
+  <title>Create an Account – MediTrack Healthcare</title>
   <meta name="description" content="Register for MediTrack – Smart Medicine Reminder to manage prescriptions, set up timely reminders, and maintain healthcare routines.">
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
 </head>
-<body class="auth-page">
+<body>
 
-  <div class="auth-wrapper">
-    <!-- Brand Header -->
-    <header class="auth-brand">
-      <div class="auth-logo-box">
-        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-          <path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/>
-        </svg>
-      </div>
-      <h1>MediTrack</h1>
-      <p class="auth-tagline">Smart Medicine Reminder & Health Organizer</p>
-    </header>
+  <!-- Two-Column Healthcare SaaS Layout -->
+  <div class="auth-split-container">
 
-    <!-- Main Registration Card -->
-    <main class="auth-card">
-      <div class="auth-header">
-        <h2>Create an Account</h2>
-        <p>Start organizing your daily medication schedule</p>
+    <!-- Left Hero Showcase Pane -->
+    <aside class="auth-hero-pane" aria-label="MediTrack Registration Showcase">
+      <div class="auth-hero-brand">
+        <img src="assets/images/logo.svg" alt="MediTrack Logo" class="auth-hero-logo">
+        <span class="auth-hero-brand-name">MediTrack</span>
+        <span class="auth-hero-badge">Healthcare SaaS</span>
       </div>
 
-      <!-- Alert Banners -->
-      <div id="registerAlertBox" style="display: none;"></div>
-
-      <!-- Registration Form -->
-      <form id="registerForm" class="auth-form" novalidate>
-        <!-- Full Name -->
-        <div class="form-group">
-          <label class="form-label" for="regName">
-            <span>Full Name *</span>
-          </label>
-          <div class="auth-input-wrapper">
-            <input 
-              type="text" 
-              id="regName" 
-              class="auth-input" 
-              placeholder="e.g. Eleanor Vance" 
-              autocomplete="name"
-              required
-            >
-          </div>
-          <span class="field-error-text" id="nameError">Please enter your full name (minimum 2 characters).</span>
+      <div class="auth-hero-content">
+        <div class="auth-hero-tag">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg>
+          Senior-First Design
         </div>
 
-        <!-- Email Address -->
-        <div class="form-group">
-          <label class="form-label" for="regEmail">
-            <span>Email Address *</span>
-          </label>
-          <div class="auth-input-wrapper">
-            <input 
-              type="email" 
-              id="regEmail" 
-              class="auth-input" 
-              placeholder="e.g. eleanor.vance@example.com" 
-              autocomplete="email"
-              required
-            >
-          </div>
-          <span class="field-error-text" id="emailError">Please enter a valid email address.</span>
+        <h1 class="auth-hero-title">Empowering Healthier Routines & Peace of Mind</h1>
+        <p class="auth-hero-desc">
+          Create your personalized schedule to organize prescription times, track completed doses, and share weekly compliance reports with your physician.
+        </p>
+
+        <!-- High-quality SVG Healthcare Graphic -->
+        <div class="auth-hero-image-wrap">
+          <img src="assets/images/healthcare-hero.svg" alt="Healthcare Hero Graphic">
         </div>
 
-        <!-- Age (Optional) -->
-        <div class="form-group">
-          <label class="form-label" for="regAge">
-            <span>Age (Years) <span style="font-weight: normal; font-size: 0.85rem; color: var(--text-muted);">(Optional)</span></span>
-          </label>
-          <div class="auth-input-wrapper">
-            <input 
-              type="number" 
-              id="regAge" 
-              class="auth-input" 
-              placeholder="e.g. 70" 
-              min="1" 
-              max="120"
-            >
-          </div>
+        <ul class="auth-feature-bullets">
+          <li class="auth-feature-item">
+            <span class="auth-feature-check">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            Custom schedule by frequency, morning to bedtime
+          </li>
+          <li class="auth-feature-item">
+            <span class="auth-feature-check">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            Prevents accidental duplicate dosage records
+          </li>
+          <li class="auth-feature-item">
+            <span class="auth-feature-check">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            100% private browser storage with user isolation
+          </li>
+        </ul>
+      </div>
+
+      <div class="auth-hero-footer">
+        <span>© 2026 MediTrack Health System</span>
+        <span>Secure Client-Side SHA-256</span>
+      </div>
+    </aside>
+
+    <!-- Right Form Pane -->
+    <main class="auth-form-pane">
+      <div class="auth-card">
+
+        <!-- Mobile Logo Header (visible on small screens) -->
+        <div class="auth-card-mobile-brand">
+          <img src="assets/images/logo.svg" alt="MediTrack Logo" width="36" height="36">
+          <strong style="font-size: 1.3rem; color: var(--navy);">MediTrack</strong>
         </div>
 
-        <!-- Password -->
-        <div class="form-group">
-          <label class="form-label" for="regPassword">
-            <span>Password *</span>
-          </label>
-          <div class="auth-input-wrapper">
-            <input 
-              type="password" 
-              id="regPassword" 
-              class="auth-input has-toggle" 
-              placeholder="At least 6 characters" 
-              autocomplete="new-password"
-              required
-            >
-            <button 
-              type="button" 
-              class="btn-toggle-password" 
-              id="btnToggleRegPassword" 
-              aria-label="Toggle password visibility" 
-              tabindex="-1"
-            >
-              <svg id="regEyeIcon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
-                <circle cx="12" cy="12" r="3"/>
-              </svg>
-            </button>
-          </div>
-          <!-- Password Strength Indicator -->
-          <div class="password-strength-bar">
-            <div class="password-strength-fill" id="strengthFill"></div>
-          </div>
-          <div class="password-strength-text" id="strengthText">Password must be at least 6 characters</div>
-          <span class="field-error-text" id="passwordError">Password must be at least 6 characters long.</span>
+        <div class="auth-header">
+          <h2>Create an Account</h2>
+          <p>Join MediTrack to start organizing your daily medication schedule.</p>
         </div>
 
-        <!-- Confirm Password -->
-        <div class="form-group">
-          <label class="form-label" for="regConfirmPassword">
-            <span>Confirm Password *</span>
-          </label>
-          <div class="auth-input-wrapper">
-            <input 
-              type="password" 
-              id="regConfirmPassword" 
-              class="auth-input has-toggle" 
-              placeholder="Re-enter your password" 
-              autocomplete="new-password"
-              required
-            >
-            <button 
-              type="button" 
-              class="btn-toggle-password" 
-              id="btnToggleConfirmPassword" 
-              aria-label="Toggle confirm password visibility" 
-              tabindex="-1"
-            >
-              <svg id="confirmEyeIcon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
-                <circle cx="12" cy="12" r="3"/>
-              </svg>
-            </button>
+        <!-- Alert Banners -->
+        <div id="registerAlertBox" style="display: none;"></div>
+
+        <!-- Registration Form -->
+        <form id="registerForm" class="auth-form" novalidate>
+          <!-- Full Name -->
+          <div class="form-group">
+            <label class="form-label" for="regName">
+              <span>Full Name *</span>
+            </label>
+            <div class="auth-input-wrapper">
+              <input 
+                type="text" 
+                id="regName" 
+                class="auth-input" 
+                placeholder="e.g. Eleanor Vance" 
+                autocomplete="name"
+                required
+              >
+            </div>
+            <span class="field-error-text" id="nameError">Please enter your full name (minimum 2 characters).</span>
           </div>
-          <span class="field-error-text" id="confirmPasswordError">Passwords do not match.</span>
+
+          <!-- Email Address -->
+          <div class="form-group">
+            <label class="form-label" for="regEmail">
+              <span>Email Address *</span>
+            </label>
+            <div class="auth-input-wrapper">
+              <input 
+                type="email" 
+                id="regEmail" 
+                class="auth-input" 
+                placeholder="e.g. eleanor.vance@example.com" 
+                autocomplete="email"
+                required
+              >
+            </div>
+            <span class="field-error-text" id="emailError">Please enter a valid email address.</span>
+          </div>
+
+          <!-- Age (Optional) -->
+          <div class="form-group">
+            <label class="form-label" for="regAge">
+              <span>Age (Years) <span style="font-weight: normal; font-size: 0.85rem; color: var(--text-muted);">(Optional)</span></span>
+            </label>
+            <div class="auth-input-wrapper">
+              <input 
+                type="number" 
+                id="regAge" 
+                class="auth-input" 
+                placeholder="e.g. 70" 
+                min="1" 
+                max="120"
+              >
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label class="form-label" for="regPassword">
+              <span>Password *</span>
+            </label>
+            <div class="auth-input-wrapper">
+              <input 
+                type="password" 
+                id="regPassword" 
+                class="auth-input has-toggle" 
+                placeholder="At least 6 characters" 
+                autocomplete="new-password"
+                required
+              >
+              <button 
+                type="button" 
+                class="btn-toggle-password" 
+                id="btnToggleRegPassword" 
+                aria-label="Toggle password visibility" 
+                tabindex="-1"
+              >
+                <svg id="regEyeIcon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            <!-- Password Strength Indicator -->
+            <div class="password-strength-bar">
+              <div class="password-strength-fill" id="strengthFill"></div>
+            </div>
+            <div class="password-strength-text" id="strengthText">Password must be at least 6 characters</div>
+            <span class="field-error-text" id="passwordError">Password must be at least 6 characters long.</span>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="form-group">
+            <label class="form-label" for="regConfirmPassword">
+              <span>Confirm Password *</span>
+            </label>
+            <div class="auth-input-wrapper">
+              <input 
+                type="password" 
+                id="regConfirmPassword" 
+                class="auth-input has-toggle" 
+                placeholder="Re-enter your password" 
+                autocomplete="new-password"
+                required
+              >
+              <button 
+                type="button" 
+                class="btn-toggle-password" 
+                id="btnToggleConfirmPassword" 
+                aria-label="Toggle confirm password visibility" 
+                tabindex="-1"
+              >
+                <svg id="confirmEyeIcon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            <span class="field-error-text" id="confirmPasswordError">Passwords do not match.</span>
+          </div>
+
+          <!-- Terms / Safe Usage Acknowledgement -->
+          <div class="auth-checkbox-row">
+            <label class="custom-checkbox-label">
+              <input type="checkbox" id="acceptTerms" required checked>
+              <span>I acknowledge this reminder tool is for personal scheduling assistance.</span>
+            </label>
+            <span class="field-error-text" id="termsError">Please accept the acknowledgement to proceed.</span>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary btn-auth-submit" id="btnRegisterSubmit">
+            Create Account & Log In
+          </button>
+        </form>
+
+        <!-- Navigation to Login -->
+        <div class="auth-footer">
+          Already have an account? 
+          <a href="login.html">Log In</a>
         </div>
 
-        <!-- Terms / Safe Usage Acknowledgement -->
-        <div class="auth-checkbox-row">
-          <label class="custom-checkbox-label">
-            <input type="checkbox" id="acceptTerms" required checked>
-            <span>I acknowledge this reminder tool is for personal scheduling assistance.</span>
-          </label>
-          <span class="field-error-text" id="termsError">Please accept the acknowledgement to proceed.</span>
+        <!-- Educational Demonstration Security Notice -->
+        <div class="edu-notice-card">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" x2="12" y1="8" y2="12"/>
+            <line x1="12" x2="12.01" y1="16" y2="16"/>
+          </svg>
+          <div>
+            <strong>College Demonstration Security Notice</strong>
+            <span>
+              Cryptographic password hashes (SHA-256 via Web Crypto API) and records are stored in browser <strong>LocalStorage</strong> with separate user data isolation. Passwords are never stored in plain text.
+            </span>
+          </div>
         </div>
-
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary btn-auth-submit" id="btnRegisterSubmit">
-          Create Account & Log In
-        </button>
-      </form>
-
-      <!-- Navigation to Login -->
-      <div class="auth-footer">
-        Already have an account? 
-        <a href="login.html">Log In</a>
       </div>
     </main>
-
-    <!-- Educational Demonstration Security Notice -->
-    <div class="edu-notice-card">
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="12" x2="12" y1="8" y2="12"/>
-        <line x1="12" x2="12.01" y1="16" y2="16"/>
-      </svg>
-      <div>
-        <strong>College Demonstration Security Notice</strong>
-        <span>
-          User information and cryptographic password hashes (SHA-256 via Web Crypto API) are stored locally in browser <strong>LocalStorage</strong>.
-          Passwords are never kept in plain text. Note: LocalStorage is accessible to client scripts and is intended strictly for academic demonstration, not production clinical deployments.
-        </span>
-      </div>
-    </div>
   </div>
 
   <!-- Authentication Script -->
