@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en" data-font-size="normal">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediTrack – Smart Medicine Reminder</title>
+  <meta name="description" content="Simple, accessible and smart medicine schedule manager and daily dose tracker for individuals and elderly patients.">
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js for Visual Adherence Reports -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- =====================================================================
+         Sidebar Navigation (Desktop / Tablet)
+         ===================================================================== -->
+    <aside class="sidebar" aria-label="Main Navigation">
+      <div class="brand-section">
+        <div class="brand-icon">
+          <!-- Heart Pulse Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg>
+        </div>
+        <div class="brand-title-group">
+          <h1>MediTrack</h1>
+          <span class="brand-badge">Smart Health</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="#dashboard" class="nav-link active" data-view-target="viewDashboard" aria-current="page">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+          </span>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="#medicines" class="nav-link" data-view-target="viewMedicines">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+          </span>
+          <span>Medicines</span>
+        </a>
+
+        <a href="#tracker" class="nav-link" data-view-target="viewTracker">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </span>
+          <span>Dose Tracker</span>
+        </a>
+
+        <a href="#reminders" class="nav-link" data-view-target="viewReminders">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+          </span>
+          <span>Reminders</span>
+        </a>
+
+        <a href="#reports" class="nav-link" data-view-target="viewReports">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+          </span>
+          <span>Reports & Stats</span>
+        </a>
+
+        <a href="#settings" class="nav-link" data-view-target="viewSettings">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+          </span>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="quick-doctor-card">
+          <strong>Dr. Sarah Jenkins</strong>
+          <span>Clinic: (555) 234-5678</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- =====================================================================
+         Main Workspace Area
+         ===================================================================== -->
+    <div class="main-wrapper">
+
+      <!-- Sticky Top Live Header -->
+      <header class="top-header">
+        <div class="header-left">
+          <span class="live-date" id="headerLiveDate">Saturday, Nov 21, 2026</span>
+          <div class="live-time-badge">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span id="headerLiveTime">08:00 AM</span>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn btn-outline btn-sm" onclick="ReminderEngine.testReminderAlert()" title="Test alarm chime and alert popup">
+            🔔 Test Alert
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="UI.openAddMedicineModal()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            Add Medicine
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Body Container -->
+      <main class="content-area">
+
+        <!-- =================================================================
+             1. DASHBOARD VIEW
+             ================================================================= -->
+        <section id="viewDashboard" class="view-section active">
+          <!-- Personalized Greeting Banner -->
+          <div class="welcome-banner">
+            <div class="welcome-text">
+              <h2 id="dashboardGreeting">Good morning, Robert!</h2>
+              <p>Keep up the great routine. You have doses scheduled today to keep you healthy and energized.</p>
+            </div>
+            <div class="welcome-quick-actions">
+              <button class="btn btn-secondary btn-action-lg" onclick="switchView('viewTracker')">
+                View Schedule
+              </button>
+              <button class="btn btn-success btn-action-lg" onclick="UI.openAddMedicineModal()">
+                + New Medicine
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 Summary Stat Cards -->
+          <div class="stats-grid">
+            <div class="stat-card stat-primary">
+              <div class="stat-icon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value" id="statTotalMedicines">5</span>
+                <span class="stat-label">Total Medicines</span>
+              </div>
+            </div>
+
+            <div class="stat-card stat-info-card">
+              <div class="stat-icon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value" id="statTodayDoses">7</span>
+                <span class="stat-label">Today's Doses</span>
+              </div>
+            </div>
+
+            <div class="stat-card stat-success">
+              <div class="stat-icon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value" id="statCompletedDoses">3</span>
+                <span class="stat-label">Doses Completed</span>
+              </div>
+            </div>
+
+            <div class="stat-card stat-danger">
+              <div class="stat-icon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value" id="statMissedDoses">0</span>
+                <span class="stat-label">Missed Doses</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Daily Adherence Progress -->
+          <div class="adherence-card">
+            <div class="adherence-header">
+              <div>
+                <span class="adherence-title">Today's Medication Adherence</span>
+                <div class="adherence-subtext" id="dashboardAdherenceSubtext">3 of 7 doses taken today</div>
+              </div>
+              <div class="adherence-percent" id="dashboardAdherencePct">43%</div>
+            </div>
+            <div class="progress-track" aria-label="Adherence progress">
+              <div class="progress-bar-fill" id="dashboardAdherenceBar" style="width: 43%;"></div>
+            </div>
+          </div>
+
+          <!-- Upcoming Reminders -->
+          <div class="section-title-row">
+            <h3>Upcoming Medication Reminders</h3>
+            <button class="btn btn-ghost btn-sm" onclick="switchView('viewReminders')">View All Reminders →</button>
+          </div>
+          <div class="reminders-list" id="dashboardUpcomingList">
+            <!-- Populated dynamically by UI.renderDashboard() -->
+          </div>
+        </section>
+
+        <!-- =================================================================
+             2. MEDICINE MANAGEMENT VIEW
+             ================================================================= -->
+        <section id="viewMedicines" class="view-section">
+          <div class="view-header">
+            <div class="view-header-title">
+              <h2>My Medications</h2>
+              <p>Manage your prescriptions, dosages, schedules and specific doctor instructions.</p>
+            </div>
+            <button class="btn btn-primary btn-lg" onclick="UI.openAddMedicineModal()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+              Add New Medicine
+            </button>
+          </div>
+
+          <!-- Filter & Search Bar -->
+          <div class="filter-bar">
+            <div class="search-box">
+              <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <input type="text" id="medicineSearchInput" placeholder="Search medicine name, dosage, or note..." aria-label="Search medicines">
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <label for="medicineTypeFilter" style="font-weight: 600; font-size: 0.9rem; color: var(--text-muted);">Type:</label>
+              <select id="medicineTypeFilter" class="form-select" style="width: auto; min-width: 150px;">
+                <option value="all">All Types</option>
+                <option value="tablet">Tablets</option>
+                <option value="capsule">Capsules</option>
+                <option value="syrup">Syrup / Liquids</option>
+                <option value="drops">Eye/Ear Drops</option>
+                <option value="injection">Injections</option>
+                <option value="inhaler">Inhalers</option>
+                <option value="ointment">Creams / Ointments</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Medicines Cards Grid -->
+          <div class="medicines-grid" id="medicinesGrid">
+            <!-- Populated dynamically by UI.renderMedicines() -->
+          </div>
+        </section>
+
+        <!-- =================================================================
+             3. DOSE TRACKER VIEW
+             ================================================================= -->
+        <section id="viewTracker" class="view-section">
+          <div class="view-header">
+            <div class="view-header-title">
+              <h2>Today's Dose Tracker</h2>
+              <p>Mark each medication dose as Taken, Missed, or Skipped and view your complete history.</p>
+            </div>
+            <button class="btn btn-outline" id="btnOpenManualLog">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+              Log Past Dose
+            </button>
+          </div>
+
+          <!-- Period Filter Pills -->
+          <div class="tracker-period-bar">
+            <button class="period-filter-btn active" data-period="all">All Scheduled Doses</button>
+            <button class="period-filter-btn" data-period="morning">Morning (6 AM - 12 PM)</button>
+            <button class="period-filter-btn" data-period="afternoon">Afternoon (12 PM - 5 PM)</button>
+            <button class="period-filter-btn" data-period="evening">Evening (5 PM - 9 PM)</button>
+            <button class="period-filter-btn" data-period="night">Night (9 PM - 6 AM)</button>
+          </div>
+
+          <!-- Today's Schedule Cards List -->
+          <div id="trackerScheduleContainer">
+            <!-- Populated dynamically by UI.renderTracker() -->
+          </div>
+
+          <!-- Dose History Section -->
+          <div class="history-section">
+            <div class="view-header" style="margin-bottom: 16px;">
+              <div>
+                <h3 style="font-size: 1.3rem; font-weight: 700;">Dose History Logs</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Accurate timestamps of all logged doses.</p>
+              </div>
+            </div>
+
+            <!-- History Filters -->
+            <div class="history-filters-row">
+              <div>
+                <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 4px;">Timeframe:</label>
+                <select id="historyRangeFilter" class="form-select" style="min-width: 140px;">
+                  <option value="7days">Past 7 Days</option>
+                  <option value="today">Today Only</option>
+                  <option value="30days">Past 30 Days</option>
+                  <option value="all">All Recorded History</option>
+                </select>
+              </div>
+
+              <div>
+                <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 4px;">Status:</label>
+                <select id="historyStatusFilter" class="form-select" style="min-width: 130px;">
+                  <option value="all">All Statuses</option>
+                  <option value="taken">Taken</option>
+                  <option value="missed">Missed</option>
+                  <option value="skipped">Skipped</option>
+                </select>
+              </div>
+
+              <div>
+                <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 4px;">Medicine:</label>
+                <select id="historyMedicineFilter" class="form-select" style="min-width: 160px;">
+                  <option value="all">All Medicines</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- History Table -->
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Medicine</th>
+                    <th>Dosage</th>
+                    <th>Scheduled Time</th>
+                    <th>Status & Action Time</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="doseHistoryTableBody">
+                  <!-- Populated dynamically by UI.renderDoseHistory() -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================================================
+             4. SMART REMINDERS VIEW
+             ================================================================= -->
+        <section id="viewReminders" class="view-section">
+          <div class="view-header">
+            <div class="view-header-title">
+              <h2>Smart Medicine Reminders</h2>
+              <p>Active reminders for today with real-time audio chimes and system notifications.</p>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <span id="notificationPermStatus"></span>
+              <button class="btn btn-outline" onclick="ReminderEngine.testReminderAlert()">
+                🔔 Test Reminder Now
+              </button>
+            </div>
+          </div>
+
+          <div id="remindersPageList">
+            <!-- Populated dynamically by UI.renderReminders() -->
+          </div>
+        </section>
+
+        <!-- =================================================================
+             5. REPORTS & ANALYTICS VIEW
+             ================================================================= -->
+        <section id="viewReports" class="view-section">
+          <div class="view-header">
+            <div class="view-header-title">
+              <h2>Adherence Reports & Analytics</h2>
+              <p>Visual statistics and medication compliance insights for you and your healthcare provider.</p>
+            </div>
+            <button class="btn btn-primary" onclick="ReportsManager.printDoctorReport()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+              Print Doctor's Summary
+            </button>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="stats-grid" style="margin-bottom: 24px;">
+            <div class="stat-card stat-success">
+              <div class="stat-icon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="m17 19-5 3-5-3"/><path d="M2 12h20"/></svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value" id="reportOverallAdherence">92%</span>
+                <span class="stat-label">Overall Adherence</span>
+              </div>
+            </div>
+
+            <div class="stat-card stat-primary">
+              <div class="stat-icon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value" id="reportStreakCount">6 Days</span>
+                <span class="stat-label">Consecutive Streak</span>
+              </div>
+            </div>
+
+            <div class="stat-card stat-info-card">
+              <div class="stat-icon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value" id="reportTotalTaken">34</span>
+                <span class="stat-label">Total Doses Taken</span>
+              </div>
+            </div>
+
+            <div class="stat-card stat-danger">
+              <div class="stat-icon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value" id="reportTotalMissed">2</span>
+                <span class="stat-label">Total Missed Doses</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts Row -->
+          <div class="reports-charts-grid">
+            <div class="chart-card">
+              <div class="chart-card-header">
+                <h3>7-Day Adherence Trend</h3>
+                <span class="badge badge-primary" style="font-size: 0.85rem; font-weight: 700; color: var(--primary);">Weekly %</span>
+              </div>
+              <div class="chart-wrapper">
+                <canvas id="weeklyAdherenceChart"></canvas>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-card-header">
+                <h3>Dose Distribution</h3>
+              </div>
+              <div class="chart-wrapper">
+                <canvas id="distributionChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Per-Medicine Breakdown Table -->
+          <div class="history-section" style="margin-top: 0;">
+            <div class="view-header" style="margin-bottom: 16px;">
+              <div>
+                <h3 style="font-size: 1.25rem; font-weight: 700;">Medicine Compliance Breakdown</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Adherence percentage by individual prescription.</p>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Medicine</th>
+                    <th>Total Scheduled</th>
+                    <th>Taken</th>
+                    <th>Missed</th>
+                    <th>Compliance Rate</th>
+                  </tr>
+                </thead>
+                <tbody id="reportMedicineTableBody">
+                  <!-- Populated dynamically by UI.renderReports() -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================================================
+             6. SETTINGS VIEW
+             ================================================================= -->
+        <section id="viewSettings" class="view-section">
+          <div class="view-header">
+            <div class="view-header-title">
+              <h2>Preferences & Settings</h2>
+              <p>Customize user profile, accessibility font size, alarm sound and manage your local data.</p>
+            </div>
+            <button class="btn btn-primary" id="btnSaveSettings">
+              Save Preferences
+            </button>
+          </div>
+
+          <div class="settings-container">
+            <!-- User Profile Card -->
+            <div class="settings-card">
+              <h3>Patient & Medical Profile</h3>
+              <p class="subtitle">Information used for your personalized greeting and doctor's reports.</p>
+
+              <div class="settings-grid">
+                <div class="form-group">
+                  <label class="form-label" for="settingsUserName">Patient Name</label>
+                  <input type="text" id="settingsUserName" class="form-input" placeholder="e.g. Robert Davis">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="settingsUserAge">Age</label>
+                  <input type="number" id="settingsUserAge" class="form-input" placeholder="e.g. 68">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="settingsDoctorName">Primary Physician</label>
+                  <input type="text" id="settingsDoctorName" class="form-input" placeholder="e.g. Dr. Sarah Jenkins">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="settingsDoctorPhone">Doctor Phone</label>
+                  <input type="tel" id="settingsDoctorPhone" class="form-input" placeholder="e.g. +1 (555) 234-5678">
+                </div>
+
+                <div class="form-group" style="grid-column: 1 / -1;">
+                  <label class="form-label" for="settingsEmergencyContact">Emergency / Family Contact</label>
+                  <input type="text" id="settingsEmergencyContact" class="form-input" placeholder="e.g. Emily Davis (Daughter) - (555) 876-5432">
+                </div>
+              </div>
+            </div>
+
+            <!-- Accessibility & Display Settings -->
+            <div class="settings-card">
+              <h3>Accessibility & Display</h3>
+              <p class="subtitle">Specially optimized for elderly readability and high contrast viewing.</p>
+
+              <!-- Font Size Adjustment -->
+              <div class="setting-row">
+                <div class="setting-row-text">
+                  <strong>Reading Font Size</strong>
+                  <span>Enlarge buttons and labels for comfortable reading</span>
+                </div>
+                <div class="radio-options-group">
+                  <label class="radio-label">
+                    <input type="radio" name="fontSizeOption" id="fontNormal" value="normal"> Standard
+                  </label>
+                  <label class="radio-label">
+                    <input type="radio" name="fontSizeOption" id="fontLarge" value="large"> Large (+15%)
+                  </label>
+                  <label class="radio-label">
+                    <input type="radio" name="fontSizeOption" id="fontXLarge" value="xlarge"> Extra Large (+30%)
+                  </label>
+                </div>
+              </div>
+
+              <!-- High Contrast Mode -->
+              <div class="setting-row">
+                <div class="setting-row-text">
+                  <strong>High Contrast Mode</strong>
+                  <span>Deep blacks, bold borders and enhanced visual edges</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="settingsHighContrast">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- Time Format -->
+              <div class="setting-row">
+                <div class="setting-row-text">
+                  <strong>Time Format</strong>
+                  <span>Choose between 12-hour AM/PM and 24-hour medical time</span>
+                </div>
+                <div class="radio-options-group">
+                  <label class="radio-label">
+                    <input type="radio" name="timeFormatOption" id="timeFormat12" value="12h"> 12-Hour (AM/PM)
+                  </label>
+                  <label class="radio-label">
+                    <input type="radio" name="timeFormatOption" id="timeFormat24" value="24h"> 24-Hour
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Notifications & Sound Settings -->
+            <div class="settings-card">
+              <h3>Sound & Alerts</h3>
+              <p class="subtitle">Set up pleasant audio chimes and system notifications when doses are due.</p>
+
+              <div class="setting-row">
+                <div class="setting-row-text">
+                  <strong>Audio Chimes</strong>
+                  <span>Play a clear two-tone healthcare chime when scheduled time arrives</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <button type="button" class="btn btn-outline btn-sm" onclick="SoundManager.playReminderChime()">Play Sample</button>
+                  <label class="switch">
+                    <input type="checkbox" id="settingsSoundToggle" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="setting-row">
+                <div class="setting-row-text">
+                  <strong>Browser Notifications</strong>
+                  <span>Display desktop notifications even if you switch browser tabs</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="settingsNotifToggle" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Local Data Management -->
+            <div class="settings-card">
+              <h3>Application Data</h3>
+              <p class="subtitle">All your data is saved privately in your browser's LocalStorage.</p>
+
+              <div class="data-actions-row">
+                <button class="btn btn-secondary" id="btnLoadDemoData">
+                  ↻ Reset to Realistic Sample Data
+                </button>
+                <button class="btn btn-outline" id="btnExportData">
+                  ⬇ Export Backup (JSON)
+                </button>
+                <button class="btn btn-outline" id="btnImportDataTrigger">
+                  ⬆ Import Backup (JSON)
+                </button>
+                <input type="file" id="fileImportInput" accept=".json" style="display: none;">
+                <button class="btn btn-danger" id="btnClearAllData" style="margin-left: auto;">
+                  Clear All Data
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- =====================================================================
+         Mobile Bottom Navigation Bar
+         ===================================================================== -->
+    <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+      <ul class="mobile-nav-list">
+        <li>
+          <a href="#dashboard" class="mobile-nav-item active" data-view-target="viewDashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+            <span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="#medicines" class="mobile-nav-item" data-view-target="viewMedicines">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+            <span>Meds</span>
+          </a>
+        </li>
+        <li>
+          <a href="#tracker" class="mobile-nav-item" data-view-target="viewTracker">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Tracker</span>
+          </a>
+        </li>
+        <li>
+          <a href="#reminders" class="mobile-nav-item" data-view-target="viewReminders">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            <span>Reminders</span>
+          </a>
+        </li>
+        <li>
+          <a href="#reports" class="mobile-nav-item" data-view-target="viewReports">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+            <span>Reports</span>
+          </a>
+        </li>
+        <li>
+          <a href="#settings" class="mobile-nav-item" data-view-target="viewSettings">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Settings</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- =======================================================================
+       MODAL 1: ADD / EDIT MEDICINE MODAL
+       ======================================================================= -->
+  <div class="modal-overlay" id="medicineModal" role="dialog" aria-modal="true" aria-labelledby="medicineFormModalTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="medicineFormModalTitle">Add New Medicine</h3>
+        <button class="btn-icon" aria-label="Close dialog" onclick="UI.closeModal('medicineModal')">&times;</button>
+      </div>
+
+      <form id="medicineForm">
+        <input type="hidden" id="editMedicineId" value="">
+        <div class="modal-body">
+
+          <!-- Name & Dosage -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="medName">Medicine Name *</label>
+              <input type="text" id="medName" class="form-input" placeholder="e.g. Metformin" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="medDosage">Dosage *</label>
+              <input type="text" id="medDosage" class="form-input" placeholder="e.g. 500 mg, 1 tablet" required>
+            </div>
+          </div>
+
+          <!-- Type & Frequency -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="medType">Medicine Type</label>
+              <select id="medType" class="form-select">
+                <option value="tablet">Tablet</option>
+                <option value="capsule">Capsule</option>
+                <option value="syrup">Syrup / Liquid</option>
+                <option value="drops">Eye/Ear Drops</option>
+                <option value="injection">Injection</option>
+                <option value="inhaler">Inhaler</option>
+                <option value="ointment">Cream / Ointment</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="medFrequency">Frequency</label>
+              <select id="medFrequency" class="form-select">
+                <option value="once_daily">Once daily</option>
+                <option value="twice_daily">Twice daily</option>
+                <option value="three_daily">3 times daily</option>
+                <option value="four_daily">4 times daily</option>
+                <option value="every_other_day">Every other day</option>
+                <option value="as_needed">As needed</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Scheduled Times -->
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label class="form-label">Medication Time(s) *</label>
+              <button type="button" class="btn btn-outline btn-sm" onclick="UI.addAnotherTimeInput()">+ Add Another Time</button>
+            </div>
+            <div id="medicineTimesInputsList">
+              <div class="time-input-group">
+                <input type="time" class="form-input time-picker-input" value="08:00" required>
+              </div>
+            </div>
+            <span class="form-hint">Alerts will trigger automatically at these times.</span>
+          </div>
+
+          <!-- Special Instructions & Color Tag -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="medInstructions">Special Instructions</label>
+              <select id="medInstructions" class="form-select">
+                <option value="with_meal">Take with food/meal</option>
+                <option value="before_meal">Take before meal</option>
+                <option value="after_meal">Take after meal</option>
+                <option value="empty_stomach">Take on empty stomach</option>
+                <option value="bedtime">Take at bedtime / before sleep</option>
+                <option value="as_directed">Take as directed by doctor</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="medColor">Card Tag Color</label>
+              <select id="medColor" class="form-select">
+                <option value="blue">Blue (Standard)</option>
+                <option value="teal">Teal (Cardio/Pressure)</option>
+                <option value="amber">Amber (Vitamins)</option>
+                <option value="purple">Purple (Evening/Sleep)</option>
+                <option value="rose">Rose (Urgent/Pain)</option>
+                <option value="cyan">Cyan (Eyes/Drops)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Start and End Dates -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="medStartDate">Start Date</label>
+              <input type="date" id="medStartDate" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="medEndDate">End Date</label>
+              <input type="date" id="medEndDate" class="form-input" placeholder="Leave empty if ongoing">
+              <span class="form-hint">Leave blank if ongoing long-term.</span>
+            </div>
+          </div>
+
+          <!-- Notes / Purpose -->
+          <div class="form-group">
+            <label class="form-label" for="medNotes">Purpose / Doctor's Notes</label>
+            <textarea id="medNotes" class="form-textarea" rows="2" placeholder="e.g. Take with a large glass of water. For blood pressure control."></textarea>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" onclick="UI.closeModal('medicineModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnSubmitMedicine">Save Medicine</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       MODAL 2: PROMINENT SMART REMINDER ALERT POPUP
+       ======================================================================= -->
+  <div class="modal-overlay" id="reminderAlertModal" role="alertdialog" aria-modal="true" aria-labelledby="reminderMedName">
+    <div class="modal-dialog reminder-alert-card">
+      <div class="modal-body" style="padding: 32px 28px;">
+        <!-- Pulsing Alarm Bell -->
+        <div class="alert-bell-pulse">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+        </div>
+
+        <span class="status-badge status-pending" id="reminderStatusBadge" style="margin-bottom: 12px;">Scheduled Now</span>
+        <h2 class="alert-med-name" id="reminderMedName">Metformin</h2>
+        <div class="alert-med-dosage" id="reminderMedDosage">500 mg • Tablet</div>
+
+        <div class="alert-info-pill">
+          🕒 Scheduled for <span id="reminderMedTime">08:00 AM</span>
+        </div>
+
+        <p style="font-size: 1.05rem; font-weight: 600; color: var(--text-main);" id="reminderMedInstructions">
+          Take with food/meal
+        </p>
+        <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 6px;" id="reminderMedNotes">
+          For blood sugar regulation.
+        </p>
+
+        <!-- Large High-Contrast Elderly Friendly Action Buttons -->
+        <div class="alert-action-grid">
+          <button class="btn btn-success btn-lg" id="btnReminderTake" style="font-size: 1.15rem; font-weight: 800;">
+            ✓ Taken
+          </button>
+          <button class="btn btn-outline btn-lg" id="btnReminderSnooze">
+            Snooze 5m
+          </button>
+          <button class="btn btn-ghost btn-lg" id="btnReminderSkip">
+            Skip
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       MODAL 3: DELETE CONFIRMATION MODAL
+       ======================================================================= -->
+  <div class="modal-overlay" id="deleteConfirmModal" role="dialog" aria-modal="true">
+    <div class="modal-dialog" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3>Delete Medicine?</h3>
+        <button class="btn-icon" onclick="UI.closeModal('deleteConfirmModal')">&times;</button>
+      </div>
+      <div class="modal-body" style="text-align: center; padding: 24px;">
+        <div style="width: 56px; height: 56px; background-color: var(--danger-bg); color: var(--danger); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 14px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+        </div>
+        <p style="font-size: 1.05rem; color: var(--text-main); margin-bottom: 8px;">
+          Are you sure you want to remove <strong id="deleteMedConfirmName">this medicine</strong>?
+        </p>
+        <p style="font-size: 0.9rem; color: var(--text-muted);">
+          This will discontinue future reminders. Past taken records will be preserved in your history.
+        </p>
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button type="button" class="btn btn-outline" onclick="UI.closeModal('deleteConfirmModal')">Cancel</button>
+        <button type="button" class="btn btn-danger" id="btnConfirmDeleteSubmit">Yes, Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       MODAL 4: MANUAL DOSE LOGGING MODAL
+       ======================================================================= -->
+  <div class="modal-overlay" id="manualLogModal" role="dialog" aria-modal="true">
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3>Log Completed or Past Dose</h3>
+        <button class="btn-icon" onclick="UI.closeModal('manualLogModal')">&times;</button>
+      </div>
+      <form id="manualLogForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="manualLogMedSelect">Select Medicine *</label>
+            <select id="manualLogMedSelect" class="form-select" required></select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="manualLogDate">Date *</label>
+              <input type="date" id="manualLogDate" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="manualLogTime">Time *</label>
+              <input type="time" id="manualLogTime" class="form-input" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="manualLogStatus">Dose Status</label>
+            <select id="manualLogStatus" class="form-select">
+              <option value="taken">Taken</option>
+              <option value="missed">Missed</option>
+              <option value="skipped">Skipped</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="manualLogNotes">Note (Optional)</label>
+            <input type="text" id="manualLogNotes" class="form-input" placeholder="e.g. Taken 30 minutes late with snack">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" onclick="UI.closeModal('manualLogModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save to History</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       TOAST CONTAINER
+       ======================================================================= -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Application Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>
