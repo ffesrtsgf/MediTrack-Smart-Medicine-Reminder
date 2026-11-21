@@ -193,56 +193,27 @@
             </div>
           </div>
 
-          <div class="dashboard-grid">
-            <article class="panel-card">
-              <div class="section-title-row">
-                <h3>Today's medicine schedule</h3>
-                <button class="btn btn-ghost btn-sm" onclick="switchView('viewTracker')">Open tracker</button>
+          <!-- Daily Medication Adherence Progress -->
+          <div class="adherence-card">
+            <div class="adherence-header">
+              <div>
+                <span class="adherence-title">Today's Medication Adherence</span>
+                <div class="adherence-subtext" id="dashboardAdherenceSubtext">Ready for today's medications</div>
               </div>
-              <div class="schedule-list" id="dashboardScheduleList" aria-live="polite"></div>
-            </article>
-
-            <article class="panel-card adherence-card">
-              <div class="adherence-layout">
-                <div class="progress-ring-wrap">
-                  <svg class="progress-ring" viewBox="0 0 120 120" role="img" aria-label="Daily medication progress">
-                    <circle class="ring-track" cx="60" cy="60" r="52"></circle>
-                    <circle class="ring-value" id="dashboardProgressRing" cx="60" cy="60" r="52"></circle>
-                  </svg>
-                  <div class="progress-ring-label">
-                    <strong id="dashboardAdherencePct">0%</strong>
-                    <span>Today</span>
-                  </div>
-                </div>
-                <div class="adherence-copy">
-                  <div class="adherence-title">Daily progress</div>
-                  <div class="adherence-subtext" id="dashboardAdherenceSubtext">Ready for today's medications</div>
-                  <div class="progress-track" aria-label="Adherence progress" style="margin-top: 14px;">
-                    <div class="progress-bar-fill" id="dashboardAdherenceBar" style="width: 0%;"></div>
-                  </div>
-                </div>
-              </div>
-            </article>
+              <div class="adherence-percent" id="dashboardAdherencePct">0%</div>
+            </div>
+            <div class="progress-track" aria-label="Adherence progress">
+              <div class="progress-bar-fill" id="dashboardAdherenceBar" style="width: 0%;"></div>
+            </div>
           </div>
 
-          <div class="dashboard-grid">
-            <article class="panel-card">
-              <div class="section-title-row">
-                <h3>Weekly medication</h3>
-                <button class="btn btn-ghost btn-sm" onclick="switchView('viewReports')">Full reports</button>
-              </div>
-              <div class="chart-wrapper-dash">
-                <canvas id="dashboardWeeklyChart" aria-label="Bar chart of medication adherence for the last seven days"></canvas>
-              </div>
-            </article>
-
-            <article class="panel-card">
-              <div class="section-title-row">
-                <h3>Upcoming reminders</h3>
-                <button class="btn btn-ghost btn-sm" onclick="switchView('viewReminders')">View all</button>
-              </div>
-              <div class="reminders-list" id="dashboardUpcomingList"></div>
-            </article>
+          <!-- Upcoming Scheduled Medication Reminders -->
+          <div class="section-title-row">
+            <h3>Upcoming Medication Reminders</h3>
+            <button class="btn btn-ghost btn-sm" onclick="switchView('viewReminders')">View All Reminders →</button>
+          </div>
+          <div class="reminders-list" id="dashboardUpcomingList">
+            <!-- Populated dynamically by UI.renderDashboard() -->
           </div>
         </section>
 

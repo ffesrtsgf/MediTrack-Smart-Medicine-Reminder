@@ -1144,6 +1144,24 @@ body {
   font-weight: 600;
 }
 
+/* SVG Progress Ring resets & safeguards */
+.progress-ring,
+svg.progress-ring {
+  fill: none !important;
+}
+
+.ring-track,
+.progress-ring-track {
+  fill: none !important;
+  stroke: var(--primary-light, #EFF6FF) !important;
+}
+
+.ring-value,
+.progress-ring-fill {
+  fill: none !important;
+  stroke: var(--primary, #2563EB) !important;
+}
+
 /* Upcoming Reminders Section */
 .section-title-row {
   display: flex;
