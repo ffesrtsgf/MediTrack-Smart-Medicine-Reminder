@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en" data-font-size="normal">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In – MediTrack</title>
+  <meta name="description" content="Log in to MediTrack – Smart Medicine Reminder to manage and track your daily prescriptions and healthcare routine.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page">
+
+  <div class="auth-wrapper">
+    <!-- Brand Header -->
+    <header class="auth-brand">
+      <div class="auth-logo-box">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+          <path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/>
+        </svg>
+      </div>
+      <h1>MediTrack</h1>
+      <p class="auth-tagline">Smart Medicine Reminder & Health Organizer</p>
+    </header>
+
+    <!-- Main Login Card -->
+    <main class="auth-card">
+      <div class="auth-header">
+        <h2>Welcome Back</h2>
+        <p>Please sign in to view your medication schedule</p>
+      </div>
+
+      <!-- Quick Demo Account Helper -->
+      <div class="demo-account-box">
+        <div class="demo-account-info">
+          <strong>Demo Account: Robert Davis</strong>
+          <span>robert.davis@example.com</span>
+        </div>
+        <div style="display: flex; gap: 6px; flex-shrink: 0;">
+          <button type="button" class="btn-fill-demo" id="btnFillDemoLogin" title="Fill demo credentials">
+            Fill
+          </button>
+          <button type="button" class="btn-fill-demo" id="btnQuickDemoLogin" style="background-color: #059669;" title="Log in immediately as Robert Davis">
+            Quick Login →
+          </button>
+        </div>
+      </div>
+
+      <!-- Alert Banners -->
+      <div id="loginAlertBox" style="display: none;"></div>
+
+      <!-- Login Form -->
+      <form id="loginForm" class="auth-form" novalidate>
+        <!-- Email Input -->
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">
+            <span>Email Address</span>
+          </label>
+          <div class="auth-input-wrapper">
+            <input 
+              type="email" 
+              id="loginEmail" 
+              class="auth-input" 
+              placeholder="e.g. robert.davis@example.com" 
+              autocomplete="email"
+              required
+            >
+          </div>
+          <span class="field-error-text" id="emailError">Please enter a valid email address.</span>
+        </div>
+
+        <!-- Password Input -->
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">
+            <span>Password</span>
+          </label>
+          <div class="auth-input-wrapper">
+            <input 
+              type="password" 
+              id="loginPassword" 
+              class="auth-input has-toggle" 
+              placeholder="Enter your password" 
+              autocomplete="current-password"
+              required
+            >
+            <button 
+              type="button" 
+              class="btn-toggle-password" 
+              id="btnTogglePassword" 
+              aria-label="Toggle password visibility" 
+              tabindex="-1"
+            >
+              <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+          <span class="field-error-text" id="passwordError">Please enter your password.</span>
+        </div>
+
+        <!-- Remember Me Checkbox -->
+        <div class="auth-checkbox-row">
+          <label class="custom-checkbox-label">
+            <input type="checkbox" id="rememberMe">
+            <span>Remember my email</span>
+          </label>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary btn-auth-submit" id="btnLoginSubmit">
+          Log In to Dashboard
+        </button>
+      </form>
+
+      <!-- Navigation to Register -->
+      <div class="auth-footer">
+        Don't have an account yet? 
+        <a href="register.html">Create an Account</a>
+      </div>
+    </main>
+
+    <!-- Educational Demonstration Security Notice -->
+    <div class="edu-notice-card">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" x2="12" y1="8" y2="12"/>
+        <line x1="12" x2="12.01" y1="16" y2="16"/>
+      </svg>
+      <div>
+        <strong>College Demonstration Security Notice</strong>
+        <span>
+          This application demonstrates client-side authentication using the <strong>Web Crypto API (SHA-256 cryptographic hashing)</strong> and browser <strong>LocalStorage</strong>.
+          Passwords are never stored in plain text. Note: LocalStorage is accessible to client scripts and does not replace server-side authentication (e.g., Argon2id/bcrypt and HTTP-only session cookies) required in production healthcare environments.
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Authentication Script -->
+  <script src="auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. If user is already authenticated, redirect to dashboard
+      AuthManager.redirectIfLoggedIn();
+
+      // 2. Pre-fill remembered email if present
+      const remembered = AuthManager.getRememberedEmail();
+      const emailInput = document.getElementById('loginEmail');
+      const rememberCheckbox = document.getElementById('rememberMe');
+      if (remembered && emailInput) {
+        emailInput.value = remembered;
+        if (rememberCheckbox) rememberCheckbox.checked = true;
+      }
+
+      // 3. Handle query parameters (e.g. ?logout=true or ?registered=true)
+      const urlParams = new URLSearchParams(window.location.search);
+      const alertBox = document.getElementById('loginAlertBox');
+
+      if (urlParams.get('logout') === 'true') {
+        showAlert('You have been logged out safely. Come back anytime!', 'info');
+      } else if (urlParams.get('registered') === 'true') {
+        showAlert('Account created successfully! Please log in with your credentials.', 'success');
+      }
+
+      // 4. Fill Demo Button & Quick Demo Login
+      const btnFillDemo = document.getElementById('btnFillDemoLogin');
+      if (btnFillDemo) {
+        btnFillDemo.addEventListener('click', () => {
+          emailInput.value = 'robert.davis@example.com';
+          document.getElementById('loginPassword').value = 'Password123!';
+          clearErrors();
+        });
+      }
+
+      const btnQuickDemo = document.getElementById('btnQuickDemoLogin');
+      if (btnQuickDemo) {
+        btnQuickDemo.addEventListener('click', async () => {
+          emailInput.value = 'robert.davis@example.com';
+          document.getElementById('loginPassword').value = 'Password123!';
+          clearErrors();
+          showAlert('Logging in as Robert Davis...', 'info');
+          try {
+            await AuthManager.loginUser('robert.davis@example.com', 'Password123!', true);
+            showAlert('Login successful! Directing to dashboard...', 'success');
+            setTimeout(() => {
+              window.location.replace('index.html');
+            }, 500);
+          } catch (err) {
+            showAlert(err.message, 'danger');
+          }
+        });
+      }
+
+      // 5. Toggle Password Visibility
+      const btnToggle = document.getElementById('btnTogglePassword');
+      const passInput = document.getElementById('loginPassword');
+      const eyeIcon = document.getElementById('eyeIcon');
+
+      if (btnToggle && passInput) {
+        btnToggle.addEventListener('click', () => {
+          const isPass = passInput.type === 'password';
+          passInput.type = isPass ? 'text' : 'password';
+          btnToggle.setAttribute('aria-label', isPass ? 'Hide password' : 'Show password');
+          
+          if (isPass) {
+            eyeIcon.innerHTML = `
+              <path d="m2 2 20 20"/>
+              <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+              <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+              <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+            `;
+          } else {
+            eyeIcon.innerHTML = `
+              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+              <circle cx="12" cy="12" r="3"/>
+            `;
+          }
+        });
+      }
+
+      // 6. Form Submission
+      const form = document.getElementById('loginForm');
+      if (form) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          clearErrors();
+
+          const email = emailInput.value.trim();
+          const password = passInput.value;
+          const remember = rememberCheckbox ? rememberCheckbox.checked : false;
+
+          let hasError = false;
+
+          if (!email) {
+            showFieldError('emailError', 'Please enter your email address.');
+            emailInput.classList.add('has-error');
+            hasError = true;
+          } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            showFieldError('emailError', 'Please enter a valid email format (e.g. name@example.com).');
+            emailInput.classList.add('has-error');
+            hasError = true;
+          }
+
+          if (!password) {
+            showFieldError('passwordError', 'Please enter your password.');
+            passInput.classList.add('has-error');
+            hasError = true;
+          }
+
+          if (hasError) return;
+
+          const submitBtn = document.getElementById('btnLoginSubmit');
+          const originalText = submitBtn.textContent;
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Verifying...';
+
+          try {
+            await AuthManager.loginUser(email, password, remember);
+            showAlert('Login successful! Directing to dashboard...', 'success');
+            setTimeout(() => {
+              window.location.replace('index.html');
+            }, 600);
+          } catch (err) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+            showAlert(err.message, 'danger');
+          }
+        });
+      }
+
+      function showAlert(msg, type) {
+        if (!alertBox) return;
+        alertBox.className = `auth-alert auth-alert-${type}`;
+        
+        let iconSvg = '';
+        if (type === 'danger') {
+          iconSvg = `<svg class="auth-alert-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>`;
+        } else if (type === 'success') {
+          iconSvg = `<svg class="auth-alert-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
+        } else {
+          iconSvg = `<svg class="auth-alert-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>`;
+        }
+
+        alertBox.innerHTML = `${iconSvg}<div>${msg}</div>`;
+        alertBox.style.display = 'flex';
+      }
+
+      function showFieldError(elemId, msg) {
+        const elem = document.getElementById(elemId);
+        if (elem) {
+          elem.textContent = msg;
+          elem.classList.add('active');
+        }
+      }
+
+      function clearErrors() {
+        if (alertBox) alertBox.style.display = 'none';
+        document.querySelectorAll('.field-error-text').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.auth-input').forEach(el => el.classList.remove('has-error'));
+      }
+    });
+  </script>
+</body>
+</html>

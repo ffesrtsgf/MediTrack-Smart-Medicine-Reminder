@@ -47,6 +47,9 @@ const SoundManager = (() => {
   // Check if sound is enabled in user settings
   function isSoundEnabled() {
     try {
+      if (window.StorageManager && typeof StorageManager.getSettings === 'function') {
+        return StorageManager.getSettings().soundEnabled !== false;
+      }
       const settings = JSON.parse(localStorage.getItem('meditrack_settings') || '{}');
       return settings.soundEnabled !== false;
     } catch {
@@ -219,6 +222,16 @@ const StorageManager = (() => {
     SETTINGS: 'meditrack_settings',
     LAST_INITIALIZED: 'meditrack_initialized'
   };
+
+  // Helper to scope storage keys to current authenticated user
+  function getUserKey(baseKey) {
+    let userId = 'user_robert_davis';
+    if (window.AuthManager && typeof AuthManager.getCurrentUser === 'function') {
+      const u = AuthManager.getCurrentUser();
+      if (u && u.id) userId = u.id;
+    }
+    return `${baseKey}_${userId}`;
+  }
 
   // Helper to get formatted date string "YYYY-MM-DD" for any Date object
   function formatDateString(date) {
@@ -425,17 +438,44 @@ const StorageManager = (() => {
     };
   }
 
-  // Initialize storage if first time or missing
+  // Initialize storage if first time or missing (User-Scoped)
   function initializeStorage(forceReset = false) {
-    if (forceReset || !localStorage.getItem(KEYS.LAST_INITIALIZED) || !localStorage.getItem(KEYS.MEDICINES)) {
-      const defaultMeds = getDefaultMedicines();
-      const defaultDoses = getDefaultDoseHistory(defaultMeds);
-      const defaultSettings = getDefaultSettings();
+    const medKey = getUserKey(KEYS.MEDICINES);
+    const doseKey = getUserKey(KEYS.DOSES);
+    const setKey = getUserKey(KEYS.SETTINGS);
+    const initKey = getUserKey(KEYS.LAST_INITIALIZED);
 
-      localStorage.setItem(KEYS.MEDICINES, JSON.stringify(defaultMeds));
-      localStorage.setItem(KEYS.DOSES, JSON.stringify(defaultDoses));
-      localStorage.setItem(KEYS.SETTINGS, JSON.stringify(defaultSettings));
-      localStorage.setItem(KEYS.LAST_INITIALIZED, new Date().toISOString());
+    const currentUser = window.AuthManager ? AuthManager.getCurrentUser() : null;
+    const isDemoUser = !currentUser || currentUser.id === 'user_robert_davis';
+
+    // Migrate any legacy un-scoped data to Robert Davis if needed
+    if (isDemoUser && !localStorage.getItem(medKey) && localStorage.getItem(KEYS.MEDICINES)) {
+      localStorage.setItem(medKey, localStorage.getItem(KEYS.MEDICINES));
+      if (localStorage.getItem(KEYS.DOSES)) localStorage.setItem(doseKey, localStorage.getItem(KEYS.DOSES));
+      if (localStorage.getItem(KEYS.SETTINGS)) localStorage.setItem(setKey, localStorage.getItem(KEYS.SETTINGS));
+      localStorage.setItem(initKey, new Date().toISOString());
+    }
+
+    if (forceReset || !localStorage.getItem(initKey) || !localStorage.getItem(medKey)) {
+      let defaultMeds = [];
+      let defaultDoses = [];
+      let defaultSettings = getDefaultSettings();
+
+      if (currentUser) {
+        defaultSettings.userName = currentUser.name;
+        if (currentUser.age) defaultSettings.userAge = currentUser.age;
+      }
+
+      // If demo user or explicit reset, initialize realistic demonstration data
+      if (isDemoUser || forceReset) {
+        defaultMeds = getDefaultMedicines();
+        defaultDoses = getDefaultDoseHistory(defaultMeds);
+      }
+
+      localStorage.setItem(medKey, JSON.stringify(defaultMeds));
+      localStorage.setItem(doseKey, JSON.stringify(defaultDoses));
+      localStorage.setItem(setKey, JSON.stringify(defaultSettings));
+      localStorage.setItem(initKey, new Date().toISOString());
 
       return { medicines: defaultMeds, doses: defaultDoses, settings: defaultSettings };
     }
@@ -490,17 +530,17 @@ const StorageManager = (() => {
     }
   }
 
-  // Medicine CRUD
+  // Medicine CRUD (User-Scoped)
   function getMedicines() {
     try {
-      return JSON.parse(localStorage.getItem(KEYS.MEDICINES) || '[]');
+      return JSON.parse(localStorage.getItem(getUserKey(KEYS.MEDICINES)) || '[]');
     } catch {
       return [];
     }
   }
 
   function saveMedicines(medicines) {
-    localStorage.setItem(KEYS.MEDICINES, JSON.stringify(medicines));
+    localStorage.setItem(getUserKey(KEYS.MEDICINES), JSON.stringify(medicines));
     ensureTodayDoses();
     dispatchStorageEvent('medicines_updated');
   }
@@ -543,22 +583,27 @@ const StorageManager = (() => {
 
     // Also update today's pending doses if medicine details changed
     const doses = getDoses();
-    let dosesChanged = false;
     const todayStr = getTodayString();
+    const newTimes = medicines[index].times || [];
 
-    doses.forEach(dose => {
+    // Clean up pending doses for today whose time is no longer in medicine times
+    const cleanedDoses = doses.filter(d => {
+      if (d.medicineId === id && d.scheduledDate === todayStr && d.status === 'pending') {
+        return newTimes.includes(d.scheduledTime);
+      }
+      return true;
+    });
+
+    cleanedDoses.forEach(dose => {
       if (dose.medicineId === id && dose.scheduledDate === todayStr && dose.status === 'pending') {
         dose.medicineName = medicines[index].name;
         dose.dosage = medicines[index].dosage;
         dose.type = medicines[index].type;
         dose.color = medicines[index].color;
-        dosesChanged = true;
       }
     });
 
-    if (dosesChanged) {
-      saveDoses(doses);
-    }
+    saveDoses(cleanedDoses);
 
     return medicines[index];
   }
@@ -575,17 +620,17 @@ const StorageManager = (() => {
     return true;
   }
 
-  // Dose CRUD & History
+  // Dose CRUD & History (User-Scoped)
   function getDoses() {
     try {
-      return JSON.parse(localStorage.getItem(KEYS.DOSES) || '[]');
+      return JSON.parse(localStorage.getItem(getUserKey(KEYS.DOSES)) || '[]');
     } catch {
       return [];
     }
   }
 
   function saveDoses(doses) {
-    localStorage.setItem(KEYS.DOSES, JSON.stringify(doses));
+    localStorage.setItem(getUserKey(KEYS.DOSES), JSON.stringify(doses));
     dispatchStorageEvent('doses_updated');
   }
 
@@ -646,10 +691,10 @@ const StorageManager = (() => {
     }
   }
 
-  // Settings
+  // Settings (User-Scoped)
   function getSettings() {
     try {
-      const parsed = JSON.parse(localStorage.getItem(KEYS.SETTINGS) || '{}');
+      const parsed = JSON.parse(localStorage.getItem(getUserKey(KEYS.SETTINGS)) || '{}');
       return { ...getDefaultSettings(), ...parsed };
     } catch {
       return getDefaultSettings();
@@ -657,7 +702,7 @@ const StorageManager = (() => {
   }
 
   function saveSettings(settings) {
-    localStorage.setItem(KEYS.SETTINGS, JSON.stringify(settings));
+    localStorage.setItem(getUserKey(KEYS.SETTINGS), JSON.stringify(settings));
     dispatchStorageEvent('settings_updated');
   }
 
@@ -681,12 +726,12 @@ const StorageManager = (() => {
       if (!parsed || !Array.isArray(parsed.medicines)) {
         throw new Error('Invalid format: Missing medicines data.');
       }
-      localStorage.setItem(KEYS.MEDICINES, JSON.stringify(parsed.medicines));
+      localStorage.setItem(getUserKey(KEYS.MEDICINES), JSON.stringify(parsed.medicines));
       if (Array.isArray(parsed.doses)) {
-        localStorage.setItem(KEYS.DOSES, JSON.stringify(parsed.doses));
+        localStorage.setItem(getUserKey(KEYS.DOSES), JSON.stringify(parsed.doses));
       }
       if (parsed.settings && typeof parsed.settings === 'object') {
-        localStorage.setItem(KEYS.SETTINGS, JSON.stringify(parsed.settings));
+        localStorage.setItem(getUserKey(KEYS.SETTINGS), JSON.stringify(parsed.settings));
       }
       ensureTodayDoses();
       dispatchStorageEvent('all_updated');
@@ -696,12 +741,12 @@ const StorageManager = (() => {
     }
   }
 
-  // Clear all data
+  // Clear all data (User-Scoped)
   function clearAllData() {
-    localStorage.removeItem(KEYS.MEDICINES);
-    localStorage.removeItem(KEYS.DOSES);
-    localStorage.removeItem(KEYS.SETTINGS);
-    localStorage.removeItem(KEYS.LAST_INITIALIZED);
+    localStorage.removeItem(getUserKey(KEYS.MEDICINES));
+    localStorage.removeItem(getUserKey(KEYS.DOSES));
+    localStorage.removeItem(getUserKey(KEYS.SETTINGS));
+    localStorage.removeItem(getUserKey(KEYS.LAST_INITIALIZED));
     dispatchStorageEvent('all_updated');
   }
 
@@ -1423,13 +1468,18 @@ const ReportsManager = (() => {
       }
 
       const ctx = canvas.getContext('2d');
+      const hasData = (stats.taken + stats.missed + stats.skipped + stats.pending) > 0;
+      const chartLabels = hasData ? ['Taken', 'Missed', 'Skipped', 'Pending'] : ['No Doses Yet'];
+      const chartData = hasData ? [stats.taken, stats.missed, stats.skipped, stats.pending] : [1];
+      const chartColors = hasData ? ['#10b981', '#ef4444', '#f59e0b', '#94a3b8'] : ['#e2e8f0'];
+
       distributionChartInstance = new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: ['Taken', 'Missed', 'Skipped', 'Pending'],
+          labels: chartLabels,
           datasets: [{
-            data: [stats.taken, stats.missed, stats.skipped, stats.pending],
-            backgroundColor: ['#10b981', '#ef4444', '#f59e0b', '#94a3b8'],
+            data: chartData,
+            backgroundColor: chartColors,
             borderWidth: 3,
             borderColor: '#ffffff',
             hoverOffset: 6
@@ -1794,6 +1844,26 @@ const UI = (() => {
 
       const userName = settings.userName ? settings.userName.split(' ')[0] : 'there';
       greetingElem.textContent = `${greetingText}, ${userName}!`;
+    }
+    // Update logged in user profile widget
+    if (window.AuthManager) {
+      const user = AuthManager.getCurrentUser();
+      if (user) {
+        const nameElem = document.getElementById('sidebarUserName');
+        const emailElem = document.getElementById('sidebarUserEmail');
+        const avatarElem = document.getElementById('sidebarUserAvatar');
+        const accName = document.getElementById('settingsAccountName');
+        const accEmail = document.getElementById('settingsAccountEmail');
+
+        if (nameElem) nameElem.textContent = user.name;
+        if (emailElem) emailElem.textContent = user.email;
+        if (avatarElem) {
+          const initials = user.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+          avatarElem.textContent = initials || 'U';
+        }
+        if (accName) accName.textContent = user.name;
+        if (accEmail) accEmail.textContent = user.email;
+      }
     }
   }
 

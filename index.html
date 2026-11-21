@@ -8,6 +8,14 @@
   <link rel="stylesheet" href="style.css">
   <!-- Chart.js for Visual Adherence Reports -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Authentication & Route Guard -->
+  <script src="auth.js"></script>
+  <script>
+    // Immediate route guard check before rendering
+    if (!AuthManager.getCurrentUser()) {
+      window.location.replace('login.html');
+    }
+  </script>
 </head>
 <body>
 
@@ -72,10 +80,19 @@
       </nav>
 
       <div class="sidebar-footer">
-        <div class="quick-doctor-card">
-          <strong>Dr. Sarah Jenkins</strong>
-          <span>Clinic: (555) 234-5678</span>
+        <div class="user-profile-widget" id="sidebarUserProfile">
+          <div class="user-profile-info">
+            <div class="user-profile-avatar" id="sidebarUserAvatar">RD</div>
+            <div class="user-profile-details">
+              <div class="user-profile-name" id="sidebarUserName">Robert Davis</div>
+              <div class="user-profile-email" id="sidebarUserEmail">robert.davis@example.com</div>
+            </div>
+          </div>
         </div>
+        <button type="button" class="btn-sidebar-logout" id="btnSidebarLogout" onclick="AuthManager.logoutUser()" title="Sign out of MediTrack">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+          Log Out
+        </button>
       </div>
     </aside>
 
@@ -101,6 +118,10 @@
           <button class="btn btn-primary btn-sm" onclick="UI.openAddMedicineModal()">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             Add Medicine
+          </button>
+          <button class="btn btn-ghost btn-sm" onclick="AuthManager.logoutUser()" title="Log out" style="color: var(--danger); font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+            <span>Logout</span>
           </button>
         </div>
       </header>
@@ -472,6 +493,22 @@
           </div>
 
           <div class="settings-container">
+            <!-- Account & Session Card -->
+            <div class="settings-card">
+              <h3>Account & Session</h3>
+              <p class="subtitle">Information about your active demonstration account.</p>
+
+              <div class="setting-row">
+                <div class="setting-row-text">
+                  <strong id="settingsAccountName">Robert Davis</strong>
+                  <span id="settingsAccountEmail">robert.davis@example.com</span>
+                </div>
+                <button type="button" class="btn btn-outline btn-sm" onclick="AuthManager.logoutUser()" style="color: var(--danger); border-color: var(--danger-border); font-weight: 700;">
+                  Sign Out
+                </button>
+              </div>
+            </div>
+
             <!-- User Profile Card -->
             <div class="settings-card">
               <h3>Patient & Medical Profile</h3>
