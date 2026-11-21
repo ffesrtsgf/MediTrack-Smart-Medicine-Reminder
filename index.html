@@ -980,6 +980,29 @@
        ======================================================================= -->
   <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
+  <!-- Image fallback: replace broken SVGs with a neutral placeholder -->
+  <script>
+    (function () {
+      function makeFallback(altText) {
+        const div = document.createElement('div');
+        div.className = 'img-fallback';
+        div.setAttribute('role', 'img');
+        div.setAttribute('aria-label', altText || 'Illustration unavailable');
+        div.style.cssText = 'display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#D9F3E8,#F4F9FC);color:#087E8B;border-radius:18px;font-size:0.85rem;font-weight:700;padding:16px;';
+        div.textContent = altText || 'Illustration';
+        return div;
+      }
+      document.addEventListener('error', function (e) {
+        const target = e.target;
+        if (target && target.tagName === 'IMG' && !target.dataset.fallbackApplied) {
+          target.dataset.fallbackApplied = '1';
+          const alt = target.getAttribute('alt') || '';
+          const fb = makeFallback(alt);
+          if (target.parentNode) target.parentNode.replaceChild(fb, target);
+        }
+      }, true);
+    })();
+  </script>
   <!-- Application Scripts -->
   <script src="script.js"></script>
 </body>

@@ -1386,8 +1386,8 @@ const ReportsManager = (() => {
       const ctx = canvas.getContext('2d');
       // Create subtle gradient
       const gradient = ctx.createLinearGradient(0, 0, 0, 250);
-      gradient.addColorStop(0, '#0284c7');
-      gradient.addColorStop(1, '#bae6fd');
+      gradient.addColorStop(0, '#087E8B');
+      gradient.addColorStop(1, '#176B87');
 
       weeklyChartInstance = new Chart(ctx, {
         type: 'bar',
@@ -1521,8 +1521,8 @@ const ReportsManager = (() => {
       <div class="fallback-chart-wrapper" style="width: 100%; height: 240px; display: flex; align-items: flex-end; justify-content: space-around; padding: 20px 10px; border-bottom: 2px solid #e2e8f0;">
         ${data.map(d => `
           <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-            <span style="font-size: 11px; font-weight: 700; color: #0284c7;">${d.rate}%</span>
-            <div style="width: 32px; height: ${Math.max(d.rate * 1.6, 6)}px; background: linear-gradient(180deg, #0284c7, #38bdf8); border-radius: 6px;"></div>
+            <span style="font-size: 11px; font-weight: 700; color: #087E8B;">${d.rate}%</span>
+            <div style="width: 32px; height: ${Math.max(d.rate * 1.6, 6)}px; background: linear-gradient(180deg, #087E8B, #176B87); border-radius: 6px;"></div>
             <span style="font-size: 12px; font-weight: 600; color: #475569;">${d.label}</span>
           </div>
         `).join('')}
@@ -1568,12 +1568,12 @@ const ReportsManager = (() => {
         <title>MediTrack - Medication Adherence Summary</title>
         <style>
           body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; padding: 30px; color: #1e293b; max-width: 800px; margin: 0 auto; }
-          h1 { color: #0284c7; margin-bottom: 4px; font-size: 24px; }
+          h1 { color: #176B87; margin-bottom: 4px; font-size: 24px; }
           .header-meta { font-size: 13px; color: #64748b; margin-bottom: 24px; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; }
-          .patient-box { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 14px; margin-bottom: 24px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+          .patient-box { background: #F4F9FC; border: 1px solid #C4D7E2; border-radius: 8px; padding: 14px; margin-bottom: 24px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
           .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
           .stat-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: center; }
-          .stat-value { font-size: 24px; font-weight: bold; color: #0284c7; }
+          .stat-value { font-size: 24px; font-weight: bold; color: #176B87; }
           .stat-label { font-size: 12px; color: #64748b; }
           table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px; }
           th, td { border: 1px solid #cbd5e1; padding: 10px; text-align: left; }
@@ -1590,7 +1590,7 @@ const ReportsManager = (() => {
             <h1>MediTrack Medical Adherence Report</h1>
             <div class="header-meta">Generated on ${new Date().toLocaleDateString(undefined, { dateStyle: 'full' })} at ${new Date().toLocaleTimeString()}</div>
           </div>
-          <button class="no-print" onclick="window.print()" style="padding: 10px 18px; background: #0284c7; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Print Report</button>
+          <button class="no-print" onclick="window.print()" style="padding: 10px 18px; background: #087E8B; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Print Report</button>
         </div>
 
         <div class="patient-box">
@@ -1609,7 +1609,7 @@ const ReportsManager = (() => {
             <div class="stat-label">Adherence Rate</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value" style="color: #0284c7;">${stats.taken}</div>
+            <div class="stat-value" style="color: #176B87;">${stats.taken}</div>
             <div class="stat-label">Doses Taken</div>
           </div>
           <div class="stat-card">
@@ -1904,13 +1904,43 @@ const UI = (() => {
       }
     }
 
+    // 2b. Daily Adherence Progress Ring
+    const ringFill = document.getElementById('adherenceRingFill');
+    const ringValue = document.getElementById('dashboardRingValue');
+    if (ringFill && ringValue) {
+      const circumference = 2 * Math.PI * 54; // ~339.29
+      const pct = Math.max(0, Math.min(100, todayStats.percentage));
+      const offset = circumference - (pct / 100) * circumference;
+      ringFill.setAttribute('stroke-dasharray', circumference.toFixed(2));
+      ringFill.style.strokeDashoffset = offset.toFixed(2);
+      ringValue.textContent = `${pct}%`;
+    }
+
+    // 2c. Weekly Medication Adherence Chart (bars)
+    const weeklyBarsContainer = document.getElementById('dashboardWeeklyBars');
+    if (weeklyBarsContainer) {
+      const weeklyData = ReportsManager.getWeeklyAdherenceData();
+      weeklyBarsContainer.innerHTML = weeklyData.map((day, idx) => {
+        const isToday = idx === weeklyData.length - 1;
+        const heightPct = Math.max(day.rate, 3); // keep a min visible sliver
+        return `
+          <div class="weekly-bar-col ${isToday ? 'is-today' : ''}" title="${day.fullLabel}: ${day.rate}% adherence">
+            <div class="weekly-bar ${isToday ? 'today' : ''}" style="height: ${heightPct}%;">
+              <span class="weekly-bar-value">${day.rate}%</span>
+            </div>
+            <span class="weekly-bar-label">${day.label}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
     // 3. Upcoming Medication Reminders Section
     const upcomingContainer = document.getElementById('dashboardUpcomingList');
     if (upcomingContainer) {
       if (upcomingList.length === 0) {
         upcomingContainer.innerHTML = `
           <div class="empty-state">
-            <div class="empty-icon">${ICONS.sparkles}</div>
+            <div class="empty-icon"><img src="assets/images/empty-medicines.svg" alt="Empty medicine cabinet illustration" style="width:100%;height:100%;object-fit:contain;" /></div>
             <h3>No Scheduled Doses Today</h3>
             <p>Add your prescribed medicines to get timely reminders.</p>
             <button class="btn btn-primary" onclick="UI.openAddMedicineModal()">${ICONS.plus} Add Medicine</button>
